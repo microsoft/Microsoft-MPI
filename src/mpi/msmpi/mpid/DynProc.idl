@@ -1,0 +1,47 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+[
+    uuid(9b1af77c-4719-48f2-abb7-b5cd2f69d16c),
+    version(1.0),
+    pointer_default(unique),
+]
+
+//
+// The RPC interface for the accept server.
+//
+interface DynProc
+{
+    import "wtypes.idl";
+    import "DynProcTypes.h";
+
+    //
+    // Summary:
+    // The client calls into this routine to send PG info to the server
+    // and retrieve the PG infos from the server
+    //
+    // In:
+    // tag          : The tag that indentifies the port
+    //
+    // Inout:
+    // pRoot        : [in]  The rank of the root in the remote group
+    //              : [out] The rank of the root in the local group
+    // pContextId   : [in]  The remote side's context id
+    //              : [out] The context id from the local group
+    // pCount       : [in]  The number of processes in the remote group
+    //              : [out] The number of processes in the local group
+    // pInConnInfos : The array containing the remote side's PG infos
+    //
+    // Out:
+    // ppOutConnInfos: Pointer to receive the array containing local group's PG infos
+   //
+    int __stdcall
+    AsyncExchangeConnInfo(
+        [in]                      unsigned int     tag,
+        [in,out]                  int*             pRoot,
+        [in,out]                  GUID*            pContextId,
+        [in,out]                  unsigned int*    pCount,
+        [in,size_is(*pCount)]     CONN_INFO_TYPE*  pInConnInfos,
+        [out,size_is(,*pCount)]   CONN_INFO_TYPE** ppOutConnInfos
+        );
+}

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SrcRoot)\mpi.props" />
+  <PropertyGroup Label="Globals">
+    <TargetName>mpifort</TargetName>
+    <ProjectGuid>{a4085965-a1a1-4f4b-a5fd-f3b8da759e82}</ProjectGuid>
+  </PropertyGroup>
+  <Target Name="CompileFortran" AfterTargets="ClCompile" Inputs="@(ForCompile)" Outputs="@(ForCompile->'$(O)%(FileName).obj')">
+    <PropertyGroup Condition="'$(BuildArchitecture)'=='i386'">
+      <Fort_Flags>-fno-underscoring -D_X86_=1 -Di386=1 -march=x86-64 -m32</Fort_Flags>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(BuildArchitecture)'=='amd64'">
+      <Fort_Flags>-fno-underscoring -D_WIN64 -D_AMD64_ -DAMD64</Fort_Flags>
+    </PropertyGroup>
+    <Exec Command="$(GFORTRAN_BIN)\gfortran.exe -I$(MPI_INC_ROOT) -c %(ForCompile.Identity) $(Fort_Flags)  -o $(O)\%(ForCompile.FileName).obj" />
+    <ItemGroup>
+      <Lib Condition="'$(ConfigurationType)'=='StaticLibrary'" Include="@(ForCompile->'$(O)\%(Filename).obj')" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\include;
+        $(MPI_SRC_ROOT)\msmpi\dbg
+      </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+        %(PreprocessorDefinitions);
+        USE_FORT_CDECL=1
+      </PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\mpif.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ItemGroup>
+    <ForCompile Include="..\setbotf.f" />
+  </ItemGroup>
+</Project>

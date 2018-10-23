@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(SrcRoot)\mpi.props" />
+
+  <ItemGroup>
+    <ProjectFile Include="$(MSBuildThisFileDirectory)api\mpiapi.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)channels\mpichannels.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)dbg\mpi_debugger.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)dll\msmpi.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)fortran\dirs.proj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)io\mpiio.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)mpid\mpid.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)util\mpiutil.vcxproj" />
+  </ItemGroup>
+
+  <Import Project="$(TraversalTargets)" Condition=" '$(CBTModulesRestored)' == 'true' " />
+</Project>

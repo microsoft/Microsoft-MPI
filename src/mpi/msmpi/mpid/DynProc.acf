@@ -1,0 +1,5 @@
+[explicit_handle, strict_context_handle]
+interface DynProc
+{
+    [async] AsyncExchangeConnInfo();
+}

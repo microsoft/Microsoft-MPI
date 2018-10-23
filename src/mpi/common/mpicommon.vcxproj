@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SrcRoot)\mpi.props" />
+
+  <PropertyGroup Label="Globals">
+    <TargetName>mpicommon</TargetName>
+    <ProjectGuid>{990e2ef8-f801-4101-a7b5-2d561fb6667b}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <IntDirSharingDetected>None</IntDirSharingDetected>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\pch_hdr.src</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\common\$(O);
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include=".\argstr.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include=".\dbg_printf.cpp" />
+    <ClCompile Include=".\dump.cpp" />
+    <ClCompile Include=".\errutil.cpp" />
+    <ClCompile Include=".\ex.cpp" />
+    <ClCompile Include=".\hwinfowin6.cpp" />
+    <ClCompile Include=".\hwinfowin7.cpp" />
+    <ClCompile Include=".\hwlayout.cpp" />
+    <ClCompile Include=".\hwsummary.cpp" />
+    <ClCompile Include=".\hwtree.cpp" />
+    <ClCompile Include=".\hwview.cpp" />
+    <ClCompile Include=".\kernel32util.cpp" />
+    <ClCompile Include=".\msgprint.cpp" />
+    <ClCompile Include=".\mpilock.cpp" />
+    <ClCompile Include=".\mpistr.cpp" />
+    <ClCompile Include=".\parsing.cpp" />
+    <ClCompile Include=".\sock.cpp" />
+    <ClCompile Include=".\util.cpp" />
+    <ClCompile Include=".\svcutils.cpp" />
+    <ClCompile Include=".\rpcutil.cpp" />
+    <ClCompile Include=".\mpiutil.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+  <ItemDefinitionGroup>
+    <PostBuildEvent>
+      <Command>robocopy .\ $(BinariesBuildTypeArchDirectory)\$(MPI_BIN_DESTINATION) mpitrace.man
+set rc=%errorlevel%
+if not %rc%==1 exit %rce% else exit 0</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="traceManifest.vcxproj">
+    </ProjectReference>
+  </ItemGroup>
+
+  <!-- Note that the input of this target is not just extracterrmsgs/errnames but rather
+       all of the core code base's C/CPP files. To ensure correct rebuild, we
+       will need to manually build this target if there are additional error messages -->
+  <Target Name="GenerateMPIErrorFiles"
+          BeforeTargets="BeforeClCompile"
+          Inputs="$(MPI_SRC_ROOT)\common\extracterrmsgs;$(MPI_SRC_ROOT)\common\errnames.txt"
+          Outputs="$(O)\defmsg.h">
+    <PropertyGroup>
+      <FileToSkip Condition="'$(BuildArchitecture)'=='amd64'">$(BaseIntermediateOutputPath)i386\errtest.c</FileToSkip>
+      <FileToSkip Condition="'$(BuildArchitecture)'=='i386'">$(BaseIntermediateOutputPath)amd64\errtest.c</FileToSkip>
+    </PropertyGroup>
+    <ItemGroup>
+      <DirectoriesToParse Include="$(MPI_SRC_ROOT)\common"/>
+      <DirectoriesToParse Include="$(MPI_SRC_ROOT)\msmpi"/>
+      <DirectoriesToParse Include="$(MPI_SRC_ROOT)\pmilib"/>
+      <DirectoriesToParse Include="$(MPI_SRC_ROOT)\mpiexec"/>
+      <DirectoriesToParse Include="$(MPI_SRC_ROOT)\smpd"/>
+      <DirectoriesToParse Include="$(SrcRoot)\launchSvc"/>
+    </ItemGroup>
+    <Exec ConsoleToMsBuild="true"
+          IgnoreExitCode="true"
+          Command="perl $(MPI_SRC_ROOT)\common\extracterrmsgs -skip=$(FileToSkip) -outpath=$(O) -outfile=defmsg.h -testfile=errtest.c @(DirectoriesToParse,' ')"/>
+  </Target>
+
+</Project>

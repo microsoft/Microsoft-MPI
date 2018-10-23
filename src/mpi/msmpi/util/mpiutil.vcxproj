@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\msmpi.props" />
+
+  <PropertyGroup Label="Globals">
+    <TargetName>mpiutil</TargetName>
+    <ProjectGuid>{74f3aa9a-087a-42bc-a273-41947640734c}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\mpid;
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include=".\allgathertuner.cpp" />
+    <ClCompile Include=".\allreducetuner.cpp" />
+    <ClCompile Include=".\alltoalltuner.cpp" />
+    <ClCompile Include=".\bcasttuner.cpp" />
+    <ClCompile Include=".\colltuner.cpp" />
+    <ClCompile Include=".\errutil_fmt.cpp" />
+    <ClCompile Include=".\gathertuner.cpp" />
+    <ClCompile Include=".\handlemem.cpp" />
+    <ClCompile Include=".\local_proc.cpp" />
+    <ClCompile Include=".\mpe_thread_win.cpp" />
+    <ClCompile Include=".\numa_sockets.cpp" />
+    <ClCompile Include=".\reducescattertuner.cpp" />
+    <ClCompile Include=".\reducetuner.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\common\traceManifest.vcxproj" />
+  </ItemGroup>
+</Project>

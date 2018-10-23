@@ -1,0 +1,773 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+# Error messages for error classes referenced in baseerrnames.txt
+#
+**success:No MPI error
+**buffer:Invalid buffer pointer
+**count:Invalid count
+**dtype:Invalid datatype
+**tag:Invalid tag
+**comm:Invalid communicator
+**rank:Invalid rank
+**root:Invalid root
+**group:Invalid group
+**op:Invalid MPI_Op
+**request:Invalid MPI_Request
+**topology:Invalid topology
+**dims:Invalid dimension argument
+**arg:Invalid argument
+**unknown:Unknown error.  Please file a bug report.
+**truncate:Message truncated
+**other:Other MPI error
+**intern:Internal MPI error!
+**instatus:See the MPI_ERROR field in MPI_Status for the error code
+**inpending:Pending request (no error)
+**fileaccess:Access denied to file
+**fileamode:Invalid amode value in MPI_File_open
+**filename:Invalid file name
+**conversion:An error occurred in a user-defined data conversion function
+**datarepused:The requested datarep name has already been specified to \
+ MPI_REGISTER_DATAREP
+**fileexist:File exists
+**fileinuse:File in use by some process
+**file:Invalid MPI_File
+**info:Invalid MPI_Info
+**infokey:Invalid key for MPI_Info
+**infoval:Invalid MPI_Info value
+**infonokey:MPI_Info key is not defined
+**io:Other I/O error
+**nameservice:Invalid service name (see MPI_Publish_name)
+**allocmem:Unable to allocate memory for MPI_Alloc_mem
+**notsame:Inconsistent arguments to collective routine
+**filenospace:Not enough space for file
+**filenoexist:File does not exist
+**port:Invalid port
+**filequota:Quota exceeded for files
+**filerdonly:Read-only file or filesystem name
+**servicename:Attempt to lookup an unknown service name
+**spawn:Error in spawn call
+**datarepunsupported:Unsupported datarep
+**datarepunsupported %s:Unsupported datarep passed to %s
+**fileopunsupported:Unsupported file operation
+**win:Invalid MPI_Win
+**winnotshm:A shared memory window is required but a local window was provided.
+**base:Invalid base address
+**locktype:Invalid lock type
+**keyval:Invalid keyval
+**rmaconflict:Conflicting accesses to window
+**rmasync:Wrong synchronization of RMA calls
+**rmasyncq %d %d %d %d:Wrong synchronization of RMA calls - rank %d, target %d, found lock state %d, expected lock state %d
+**rmasize:Invalid size argument in RMA call
+**rmadisp:Invalid displacement argument in RMA call
+**rmatype:Invalid datatype for RMA operation
+**assert:Invalid assert argument
+
+# NOTE: The following error messages are not defined in the standard,
+#       but, are internally used.
+#
+**message:Invalid message handle
+
+
+**argnonpos %s %d:Invalid value for %s; must be positive but is %d
+**argneg %s %d:Invalid value for %s, must be non-negative but is %d
+**countneg %d:Negative count, value is %d
+**inittwice:Cannot call MPI_INIT or MPI_INIT_THREAD more than once
+**nomem:Out of memory
+**notimpl:Function not implemented
+**notimpl %s:Function %s not implemented
+**nullptr %s:Null pointer in parameter %s
+**nullptrtype %s:Null %s pointer
+**typenamelen %d:Specified datatype name is too long (%d characters)
+**commnamelen %d:Specified communicator name is too long (%d characters)
+**winnamelen %d:Specified window name is too long (%d characters)
+**keyvalobj %s:Keyval was not defined for %s objects
+**keyvalinvalid:Attribute key was MPI_KEYVAL_INVALID
+**permattr:Cannot set permanent attribute
+**noerrclasses:No more user-defined error classes
+**noerrcodes:No more user-defined error codes
+**rankdup %d %d %d:Duplicate ranks in rank array at index %d, has value %d which is \
+also the value at index %d
+**topotoolarge %d %d:Topology size %d is larger than communicator size (%d)
+**notcarttopo:No Cartesian topology associated with this communicator
+**dimszero:Communicator associated with zero-dimensional cartesian topology
+**notgraphtopo:No Graph topology associated with this communicator
+**notopology:No topology associated with this communicator
+**dimsmany %d %d:Number of dimensions %d is too large (maximum is %d)
+**neighborsmany %d %d:Number of neighbors %d is too large (maximum is %d)
+**dimspartition:Cannot partition nodes as requested
+**cartcoordinvalid %d %d %d:Cartesian coordinate for the %d coordinate \
+ is %d but must be between 0 and %d
+**cartdim %d %d:Size of the communicator (%d) is smaller than the size of the \
+ Cartesian topology (%d)
+**edgeoutrange %d %d %d:Edge index edges[%d] is %d but must be nonnegative \
+ and less than %d
+**nulledge %d %d:Edge for node %d (entry edges[%d]) is to itself
+**indexneg %d %d:Index value for index[%d] is %d but must be nonnegative
+**indexnonmonotone %d %d %d:Index values in graph topology must be monotone \
+ nondecreasing but index[%d] is %d but the next index value is %d
+**graphnnodes:Number of graph nodes exceeds size of communicator.
+**rangedup %d %d %d:The range array specifies duplicate entries; process %d \
+ specified in range array %d was previously specified in range array %d
+**rank %d %d:Invalid rank has value %d but must be nonnegative and less than %d
+**rank %d %g %d:Invalid rank %d in group %g but must be nonnegative and less than %d
+**stride %d %d %d:Range (start = %d, end = %d, stride = %d) does not terminate
+**stridezero:Zero stride is invalid
+**rangestartinvalid %d %d %d:The %dth element of a range array starts at %d \
+ but must be nonnegative and less than %d
+**rangeendinvalid %d %d %d:The %dth element of a range array ends at %d \
+ but must be nonnegative and less than %d
+**argrange %s %d %d:Argument %s has value %d but must be within [0,%d]
+**argarrayneg %s %d %d:Negative value in array %s[%d] (value is %d)
+**bufexists:Buffer already attached with MPI_BUFFER_ATTACH.
+**bsendbufsmall %d %d:Buffer size of %d is smaller than MPI_BSEND_OVERHEAD (%d)
+**notgenreq:Attempt to complete a request with MPI_GREQUEST_COMPLETE that \
+was not started with MPI_GREQUEST_START
+**cancelunknown:Attempt to cancel an unknown type of request
+**permop:Cannot free permanent MPI_Op
+**toomanycomm:Too many communicators
+**commperm %s:Cannot free permanent communicator %s
+**groupperm:Cannot free permanent group
+**groupnotincomm %d:Rank %d of the specified group is not a member of this communicator
+**commnotintra:An intracommunicator is required but an intercommunicator \
+ was provided.
+**commnotinter:An intercommunicator is required but an intracommunicator \
+ was provided.
+**nosplittype %d:Communicator cannot be split for type %d.
+**ranklocal %d %d:Error specifying local_leader; rank given was %d but must \
+be in the range 0 to %d
+**rankremote %d %d:Error specifying remote_leader; rank given was %d but must \
+be in the range 0 to %d
+**ranksdistinct:Local and remote leaders must be different processes
+**dupprocesses %d:Local and remote groups in MPI_Intercomm_create must not \
+ contain the same processes; both contain process %d
+**tag %d:Invalid tag, value is %d
+**count %d:Invalid count, value = %d
+**bufnull:Null buffer pointer
+**bufbsend %d %d:Insufficient space in Bsend buffer; requested %d; total \
+ buffer size is %d
+**namepubnotpub %s:Lookup failed for service name %s
+**nonamepub:No name publishing service available
+**namepubnotfound %s:Lookup failed for service name %s
+**namepubnotunpub %s:Failed to unpublish service name %s
+**sendbuf_inplace:sendbuf cannot be MPI_IN_PLACE
+**recvbuf_inplace:recvbuf cannot be MPI_IN_PLACE
+**buf_inplace:buffer cannot be MPI_IN_PLACE
+**typematchnoclass:The value of typeclass is not one of MPI_TYPECLASS_REAL, \
+MPI_TYPECLASS_INTEGER, or MPI_TYPECLASS_COMPLEX
+**typematchsize %s %d:No MPI datatype available for typeclass %s and size %d
+**f90typetoomany:Too many requests for unnamed, predefined f90 types
+**f90typeintnone %d: No integer type with %d digits of range is avaiable
+**f90typerealnone %d %d: No REAL type with precision %d and %d digits of range is avaiable
+**f90typecomplexnone %d %d: No COMPLEX type with precision %d and %d digits of range is avaiable
+**getConnStringFailed:Failed to obtain connection info for this process group
+**version %d %d %d %d %d %d:Version mismatch in connection request, received version %d.%d.%d, expected %d.%d.%d.  \
+Check cluster configuration and ensure MSMPI versions match.
+**comm_split_type %d:Split type %d is not valid.
+**overflow %s:Operation overflow in %s
+**intoverflow %l:The value %l passed to the internal operation is bigger than MAX_INT and may cause data corruption
+**invalidarg %s %s:Invalid argument value specified in parameter %s. %s
+**unweightedboth:Must specify MPI_UNWEIGHTED for both or neither weight arguments
+**argarrayrange %s %d %d %d:Argument %s[%d] has value %d but must be within [0,%d]
+
+# -- FIXME: Some (but not all) of the messages below this line have been used
+#---- The messages below this line haven't been used yet.
+#
+**bufalias %s %s:Buffer parameters %s and %s must not be aliased
+**dtypenull %s:Datatype for argument %s is a null datatype
+**dtypecommit:Datatype has not been committed
+**dtypeperm:Cannot free permanent data type
+**dtypecomm:Pack buffer not packed for this communicator.
+**dtypemismatch:Receiving data with a datatype whose signature does not match that of the sending datatype.
+**intercomm:Intercommunicator is not allowed
+**rankarray %d %d %d:Invalid rank in rank array at index %d; value is %d but must \
+be in the range 0 to %d
+**rankarraysize %d %d:Invalid rank array size %d: the number of ranks must be between 0 \
+and the size of the group (%d)
+**rangessize %d %d:Invalid number of ranges %d: the number of ranges must be between 0 \
+and the size of the group (%d)
+**root %d:Invalid root (value given was %d)
+**opundefined %s:MPI_Op %s operation not defined for this datatype
+**noopnotallowed:MPI_NO_OP operation is not allowed in this call
+**replacenotallowed:MPI_REPLACE operation is not allowed in this call
+**dims %d:Invalid dimension argument (value is %d)
+**arg %s:Invalid argument %s
+**argerrcode %d:Invalid error code %d
+**errhandler:Invalid errhandler
+**errhandnotcomm:Error handler is not a comm error handler
+**errhandnotfile:Error handler is not a file error handler
+**errhandnotwin:Error handler is not a win error handler
+**argarray %s %d %d:Invalid value in %s[%d] = %d
+**darraydist %d %d:For MPI_DISTRIBUTE_NONE, the value of array_of_psizes[%d] \
+ is %d but must have value 1
+**darrayunknown:Unknown distribution type
+**darrayblock %d:Value of m in block(m) distribution is %d must must be \
+ positive
+**darrayblock2 %d %d:m * nprocs is %d but must equal the array size %d and is \
+ not valid for block(m) distribution
+**darraycyclic %d:Value of m is %d but must be positive for a cyclic(m) \
+ distribution
+**argposneg %d:Value of position is %d but must be nonnegative
+**argpackbuf %l %l:Size of data to pack (%l bytes) is larger than remaining (%l bytes) \
+ space in pack buffer (%d bytes)
+**truncate %d %d:Message truncated; %d bytes received but buffer size is %d
+**truncate %d %d %d %d:Message from rank %d and tag %d truncated; \
+ %d bytes received but buffer size is %d
+**rsendnomatch %d %d %d:Ready send from source %d, for destination %d and \
+ with tag %d had no matching receive
+**rsendnomatch %d %d:Ready send from source %d and with tag %d had no matching receive
+**intern %s:Internal MPI error!  %s
+**unknowngpid %d %d:Internal MPI error: Unknown gpid (%d)%d
+**request_invalid_kind %d:The supplied request was invalid (kind=%d)
+**requestnotpersist:Request is not persistent in MPI_Start or MPI_Startall.
+**requestpersistactive:Persistent request passed to MPI_Start or MPI_Startall is already active.
+**requestrmacancel:Cannot cancel RMA request
+**requestrmanotexpected:Request-based RMA operations are only valid within a passive target epoch
+**requestrmaoutofbounds:The requested displacement specifies memory outside of the RMA window
+**requestrmaremoteerror:RMA operation caused an error on the target process
+**fileamode %d:Invalid amode value of %d in MPI_File_open
+**fileamodeone:Exactly one of MPI_MODE_RDONLY, MPI_MODE_WRONLY, or \
+ MPI_MODE_RDWR must be specified
+**fileamoderead:Cannot use MPI_MODE_CREATE or MPI_MODE_EXCL with \
+ MPI_MODE_RDONLY
+**fileamodeseq:Cannot specify MPI_MODE_SEQUENTIAL with MPI_MODE_RDWR
+**infokeynull:Null key
+**infokeylong %s %d %d:Key %s is too long (length is %d but maximum allowed is %d)
+**infokeyempty:Empty or blank key
+**infovalnull:Null value
+**infovallong %s %d %d:Value %s is too long (length is %d but maximum length is %d)
+**infonokey %s:MPI_Info key %s is not defined
+**infonkey %d %d:Requested key %d but this MPI_Info only has %d keys
+**io %s:Other I/O error %s
+**ioetype:Only an integral number of etypes can be accessed
+**iosplitcoll:Only one active split collective I/O operation is allowed per file handle
+**iosplitcollnone:No split collective I/O operation is active
+**iofiletype:Filetype must be constructed out of one or more etypes
+**ioamodeseq %s:Cannot use function %s when the file is opened with amode \
+    MPI_MODE_SEQUENTIAL
+**iowronly:Cannot read from a file opened with amode MPI_MODE_WRONLY
+**iordonly:Cannot write to a file opened with amode MPI_MODE_RDONLY
+**iodispifseq:disp must be set to MPI_DISPLACEMENT_CURRENT since file \
+    was opened with MPI_MODE_SEQUENTIAL
+**iobaddisp:Invalid displacement argument
+**iobadoffset:Invalid offset argument
+**ionegoffset:Negative offset argument
+**iobadwhence:Invalid whence argument
+**iobadfh:Invalid file handle
+**ioagnomatch:No aggregators match
+**iobadsize:Invalid size argument
+**unsupporteddatarep:Only native data representation currently supported
+**iodatarepnomem:User must allocate memory for datarep
+**ioverlapping:Filetype specifies overlapping write regions
+**ioinfokey %s:Value for info key %s not same across processes
+**allocmem %d %d:Unable to allocate %d memory for MPI_Alloc_mem; only %d available
+**notsame %s %s:Inconsistent arguments %s to collective routine %s
+**rmasize %d:Invalid size argument in RMA call (value is %d)
+**winunlockrank %d %d:Invalid rank argument %d, should be %d
+**winlockall: A window locked with MPI_WIN_LOCK_ALL should be unlocked with MPI_WIN_UNLOCK_ALL
+**winrmaop: Unexpected type of RMA operation
+**notcstatignore:MPI_STATUS_IGNORE cannot be passed to MPI_Status_c2f()
+**notfstatignore:MPI_STATUS_IGNORE cannot be passed to MPI_Status_f2c()
+**user:user defined function returned an error code
+**userdel %d:user delete function returned error code %d
+**usercopy %d:user copy function returned error code %d
+**userquery %d:user request query function returned error code %d
+**usercancel %d:user request cancel function returned error code %d
+**userfree %d:user request free function returned error code %d
+**oremote_fail:open failed on a remote node
+**join_portname %s %s:local %s, remote %s
+**join_send %d:send on the socket failed (errno %d)
+**join_recv %d:recv from the socket failed (errno %d)
+**flag %d:invalid flag parameter (flag = %d)
+**badcase %d:INTERNAL ERROR: unexpected value in case statement (value=%d)
+**MapViewOfFile %d:MapViewOfFile failed, error %d
+**errcontextid:Creating Remote ContextID Failed 
+**uuidgenfailed:Generating ContextID Failed 
+**interuptiblenotsupported:Interuptible Waits not supported.
+
+#
+# Errors common to several devices
+#
+**dev|selfsenddeadlock:DEADLOCK: attempting to send a message to the local process without a prior matching receive
+
+#
+# CH3 errors
+#
+**ch3|badreqtype %d:request contained an invalid request type (%d)
+**ch3|unknownpkt %d:received unknown packet type (type=%d)
+**opnotpredefined %d:only predefined ops are valid (op = %d)
+**ch3|conn_parent:spawned process group was unable to connect back to the parent
+**ch3|conn_parent %s:spawned process group was unable to connect back to the parent on port <%s>
+
+#
+# CH3:sock errors
+#
+**ch3|sock|connrefused %s %d %s:[ch3:sock] failed to connect to process %s:%d (%s)
+**ch3|sock|connfailed %d %d:[ch3:sock] failed to connnect to remote process %d:%d
+**ch3|sock|connfailed %g %d:[ch3:sock] failed to connnect to remote process %g:%d
+**ch3|sock|badpacket %d:[ch3:sock] received packet of unknown type (%d)
+**ch3|sock|postread %p %p %p:attempt to post a read operation failed (rreq=%p,conn=%p,vc=%p)
+**ch3|sock|postwrite %p %p %p:attempt to post a write operation failed (sreq=%p,conn=%p,vc=%p)
+**ch3|sock|postconnect %d %d %s:[ch3:sock] rank %d unable to connect to rank %d using business card <%s>
+**ch3|sock|open_lrecv_data:[ch3:sock] failed to handle open lrecv data packet
+**ch3|sock|badhost %s %d %s:[ch3:sock] invalid host description, %s:%d (%s)
+**pglookup %g:unable to find the process group structure with id %g
+
+#
+# CH3:nd
+#
+**ch3|nd|startup %x:[ch3:nd] NdStartup failed with %x
+**ch3|nd|query_addr %x:[ch3:nd] NdQueryAddressList failed with %x
+**ch3|nd|badbuscard:[ch3:nd] Invalid business card
+**ch3|nd|not_here_fallback %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+There is no matching NetworkDirect adapter and fallback to the socket interconnect is disabled.\n\
+Check the local NetworkDirect configuration or set the MPICH_ND_ENABLE_FALLBACK environment variable to true.
+**ch3|nd|not_both_force %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+A matching NetworkDirect adapter is not available on either rank and the socket interconnect is disabled.\n\
+Check NetworkDirect configuration or clear the MPICH_DISABLE_SOCK environment variable.
+**ch3|nd|not_here_force %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+There is no matching NetworkDirect adapter and the socket interconnect is disabled.\n\
+Check the local NetworkDirect configuration or clear the MPICH_DISABLE_SOCK environment variable.
+**ch3|nd|not_there_fallback %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+There is no NetworkDirect information in the business card and fallback to the socket interconnect is disabled.\n\
+Check the remote NetworkDirect configuration or set the MPICH_ND_ENABLE_FALLBACK environment variable to true.
+**ch3|nd|not_there_force %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+There is no NetworkDirect information in the business card and the socket interconnect is disabled.\n\
+Check the remote NetworkDirect configuration or clear the MPICH_DISABLE_SOCK environment variable.
+**ch3|nd|no_path_fallback %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+The local and remote ranks have active NetworkDirect adapters but a route via NetworkDirect could not \
+be resolved and fallback to the socket interconnect is disabled.\n\
+Check NetworkDirect configuration or set the MPICH_ND_ENABLE_FALLBACK environment variable to true.
+**ch3|nd|no_path_force %d %s:[ch3:nd] Could not connect via NetworkDirect to rank %d with business card (%s).\n\
+The local and remote ranks have active NetworkDirect adapters but a route via NetworkDirect could not \
+be resolved and the socket interconnect is disabled.\n\
+Check NetworkDirect configuration or clear the MPICH_DISABLE_SOCK environment variable.
+**ch3|nd|open %x:[ch3:nd] NdOpenAdapter failed with %x
+**ch3|nd|query %x:[ch3:nd] IND2Adapter::Query failed with %x
+**ch3|nd|max_cq %d %d:[ch3:nd] Adapter's MaxCompletionQueueDepth: %d, need %d
+**ch3|nd|max_sq %d %d:[ch3:nd] Adapter's MaxInitiatorQueueDepth: %d, need %d
+**ch3|nd|max_rq %d %d:[ch3:nd] Adapter's MaxReceiveQueueDepth: %d, need %d
+**ch3|nd|ov_file %x:[ch3:nd] IND2Adapter::CreateOverlappedFile failed with %x
+**ch3|nd|create_cq %x:[ch3:nd] IND2Adapter::CreateCompletionQueue failed with %x
+**ch3|nd|notify %x:[ch3:nd] IND2CompletionQueue::Notify failed with %x
+**ch3|nd|create_mr %x:[ch3:nd] IND2Adapter::CreateMemoryRegion failed with %x
+**ch3|nd|regmem %x:[ch3:nd] IND2MemoryRegion::Register failed with %x
+**ch3|nd|deregmem %x:[ch3:nd] IND2MemoryRegion::Deregister failed with %x
+**ch3|nd|create_listen %x:[ch3:nd] IND2Adapter::CreateListener failed with %x
+**ch3|nd|bindlisten %x:[ch3:nd] IND2Listener::Bind failed with %x
+**ch3|nd|listen %x:[ch3:nd] IND2Listener::Listen failed with %x
+**ch3|nd|listen_addr %x:[ch3:nd] IND2Listener::GetLocalAddress failed with %x
+**ch3|nd|create_conn %x:[ch3:nd] IND2Adapter::CreateConnector failed with %x
+**ch3|nd|bindconn %x:[ch3:nd] IND2Connector::Bind failed with %x
+**ch3|nd|get_conn %x:[ch3:nd] IND2Listener::GetConnectionRequest failed with %x
+**ch3|nd|conn_data %x:[ch3:nd] IND2Connector::GetPrivateData failed with %x
+**ch3|nd|conn_data_len %d:[ch3:nd] IND2Connector::GetPrivateData returned insufficient private data (%d)
+**ch3|nd|conn_data %s %d %x:[ch3:nd] IND2Connector::GetPrivateData from %s:%d failed with %x
+**ch3|nd|conn_data_len %s %d %d:[ch3:nd] IND2Connector::GetPrivateData from %s:%d returned insufficient private data (%d)
+**ch3|nd|peer_addr %x:[ch3:nd] IND2Connector::GetPeerAddr failed with %x
+**ch3|nd|accept %x:[ch3:nd] IND2Listener::Accept failed with %x
+**ch3|nd|create_ep %x:[ch3:nd] IND2Adapter::CreateEndpoint failed with %x
+**ch3|nd|conn %x:[ch3:nd] IND2Connector::Connect failed with %x
+**ch3|nd|conn %s %d %x:[ch3:nd] IND2Connector::Connect to %s:%d failed with %x
+**ch3|nd|comp_conn %s %d %x:[ch3:nd] IND2Connector::CompleteConnect to %s:%d failed with %x
+**ch3|nd|recv %x:[ch3:nd] IND2Endpoint::Receive failed with %x
+**ch3|nd|recv_err %s %d %x:[ch3:nd] Recv from %s:%d completed in error with %x
+**ch3|nd|send %x:[ch3:nd] IND2Endpoint::Send failed with %x
+**ch3|nd|send %s %d %x:[ch3:nd] IND2Endpoint::Send to %s:%d failed with %x
+**ch3|nd|send_err %s %d %x:[ch3:nd] Send to %s:%d completed in error with %x
+**ch3|nd|dconn %x:[ch3:nd] IND2Connector::Disconnect failed with %x
+**ch3|nd|flush %x:[ch3:nd] IND2Endpoint::Flush failed with %x
+**ch3|nd|create_mw %x:[ch3:nd] IND2Adapter::CreateMemoryWindow failed with %x
+**ch3|nd|bind %x:[ch3:nd] IND2Endpoint::Bind failed with %x
+**ch3|nd|bind_err %x:[ch3:nd] Bind failed with %x
+**ch3|nd|unbind %x:[ch3:nd] IND2Endpoint::Invalidate failed with %x
+**ch3|nd|unbind_err %x:[ch3:nd] Invalidate failed with %x
+**ch3|nd|read %s %d %x:[ch3:nd] IND2Endpoint::Read from %s:%d failed with %x
+**ch3|nd|read_err %s %d %x:[ch3:nd] Read from %s:%d completed in error with %x
+
+#
+# CH3:ssm
+#
+**OpenProcess %d %d:OpenProcess failed for process %d, error %d
+**CreateFileMapping %d:CreateFileMapping failed, error %d
+**MapViewOfFileEx %d:MapViewOfFileEx failed, error %d
+**snprintf %d:snprintf returned %d
+**boot_attach %s:failed to attach to a bootstrap queue - %s
+**attach_to_mem:attach to shared memory segment failed
+**boot_send:sending bootstrap message failed
+**shmconnect_getmem:failed to allocate shared memory for a write queue
+**attach_to_mem %d:attach to shared memory returned error %d
+**ca %d:invalid completion action (%d)
+**vc_state %d:invalid vc state (%d)
+**argstr_port:no space for the listener port
+**argstr_port_name_tag:no space for port_name tag
+**argstr_no_port_name_tag:no port_name tag in MPI port.  Make sure that port \
+ was created with MPI_Open_port
+**argstr_shmq:no space for the shared memory queue name
+**argstr_missinghost:Missing hostname or invalid host/port description in business card
+**argstr_missingport:Missing port or invalid host/port description in business card
+**buscard:unable to create a business card
+**buscard_len:no space left in the business card to add a parameter
+**desc_len:host description buffer too small
+**duphandle %d:unable to duplicate a handle (errno %d)
+**duphandle %s %d:unable to duplicate a handle, %s (errno %d)
+**fail:
+**fail %d:generic failure with errno = %d
+**fail %s:%s
+**fail %s %d:%s (errno %d)
+**gethostbyname %d:gethostbyname failed (errno %d)
+**gethostbyname %s %d:gethostbyname failed, %s (errno %d)
+**sock_connect %d:connect failed (errno %d)
+**sock_connect %s %d:connect failed - %s (errno %d)
+**sock_connect %s %d %d:unable to connect to %s on port %d, error %d
+**sock_connect %s %d %s:unable to connect to %s on port %d, %s
+**sock_connect %s %d %s %d:unable to connect to %s on port %d, %s (errno %d)
+**vcfailedstate %d:Failed to communicate with %d on previous attempts
+
+#
+# Sock
+#
+**sock|connclosed:connection closed by peer
+**sock|getport:failed to obtain port number of the listener
+
+#
+# mpi functions
+#
+**mpi_send %p %d %D %i %t %C:MPI_Send(buf=%p, count=%d, %D, dest=%i, tag=%t, %C) failed
+**mpi_recv %p %d %D %i %t %C %p:MPI_Recv(buf=%p, count=%d, %D, src=%i, tag=%t, %C, status=%p) failed
+**mpi_get_count %p %D %p:MPI_Get_count(status=%p, %D, count=%p) failed
+**mpi_bsend %p %d %D %i %t %C:MPI_Bsend(buf=%p, count=%d, %D, dest=%i, tag=%t, %C) failed
+**mpi_ssend %p %d %D %i %t %C:MPI_Ssend(buf=%p, count=%d, %D, dest=%i, tag=%t, %C) failed
+**mpi_rsend %p %d %D %i %t %C:MPI_Rsend(buf=%p, count=%d, %D, src=%i, tag=%t, %C) failed
+**mpi_buffer_attach %p %d:MPI_Buffer_attach(buf=%p, size=%d) failed
+**mpi_buffer_detach %p %p:MPI_Buffer_detach(buf=%p, size=%p) failed
+**mpi_isend %p %d %D %i %t %C %p:MPI_Isend(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_ibsend %p %d %D %i %t %C %p:MPI_Ibsend(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_issend %p %d %D %i %t %C %p:MPI_Issend(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_irsend %p %d %D %i %t %C %p:MPI_Irsend(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_irecv %p %d %D %i %t %C %p:MPI_Irecv(buf=%p, count=%d, %D, src=%i, tag=%t, %C, request=%p) failed
+**mpi_wait %p %p:MPI_Wait(request=%p, status%p) failed
+**mpi_test %p %p %p:MPI_Test(request=%p, flag=%p, status=%p) failed
+**mpi_request_free %p:MPI_Request_free(request=%p) failed
+**mpi_waitany %d %p %p %p:MPI_Waitany(count=%d, req_array=%p, index=%p, status=%p) failed
+**mpi_testany %d %p %p %p %p:MPI_Testany(count=%d, req_array=%p, index=%p, flag=%p, status=%p) failed
+**mpi_waitall %d %p %p:MPI_Waitall(count=%d, req_array=%p, status_array=%p) failed
+**mpi_testall %d %p %p %p:MPI_Testall(count=%d, req_array=%p, flag=%p, status_array=%p) failed
+**mpi_waitsome %d %p %p %p %p:MPI_Waitsome(count=%d, req_array=%p, out_count=%p, indices=%p, status_array=%p) failed
+**mpi_testsome %d %p %p %p %p:MPI_Testsome(count=%d, req_array=%p, out_count=%p, indices=%p, status_array=%p) failed
+**mpi_iprobe %i %t %C %p %p:MPI_Iprobe(src=%i, tag=%t, %C, flag=%p, status=%p) failed
+**mpi_probe %i %t %C %p:MPI_Probe(src=%i, tag=%t, %C, status=%p) failed
+**mpi_improbe %i %t %C %p %p %p:MPI_Improbe(src=%i, tag=%t, %C, flag=%p, message=%p, status=%p) failed
+**mpi_mprobe %i %t %C %p %p:MPI_Mprobe(src=%i, tag=%t, %C, message=%p, status=%p) failed
+**mpi_mrecv %p %d %D %p %p:MPI_Mrecv(buf=%p, count=%d, %D, message=%p, status=%p) failed
+**mpi_imrecv %p %d %D %p %p:MPI_Imrecv(buf=%p, count=%d, %D, message=%p, request=%p) failed
+**mpi_cancel %p:MPI_Cancel(request=%p) failed
+**mpi_test_cancelled %p %p:MPI_Test_cancelled(status=%p, flag=%p) failed
+**mpi_send_init %p %d %D %i %t %C %p:MPI_Send_init(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_bsend_init %p %d %D %i %t %C %p:MPI_Bsend_init(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_ssend_init %p %d %D %i %t %C %p:MPI_Ssend_init(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_rsend_init %p %d %D %i %t %C %p:MPI_Rsend_init(buf=%p, count=%d, %D, dest=%i, tag=%t, %C, request=%p) failed
+**mpi_recv_init %p %d %D %i %t %C %p:MPI_Recv_init(buf=%p, count=%d, %D, src=%i, tag=%t, %C, request=%p) failed
+**mpi_start %p:MPI_Start(request=%p) failed
+**mpi_startall %d %p:MPI_Startall(count=%d, req_array=%p) failed
+**mpi_sendrecv %p %d %D %i %t %p %d %D %i %t %C %p:MPI_Sendrecv(sbuf=%p, scount=%d, %D, dest=%i, stag=%t, rbuf=%p, rcount=%d, %D, src=%i, rtag=%t, %C, status=%p) failed
+**mpi_sendrecv_replace %p %d %D %i %t %i %t %C %p:MPI_Sendrecv_replace(buf=%p, count=%d, %D, dest=%i, stag=%t, src=%i, rtag=%t, %C, status=%p) failed
+**mpi_type_contiguous %d %D %p:MPI_Type_contiguous(count=%d, %D, new_type_p=%p) failed
+**mpi_type_vector %d %d %d %D %p:MPI_Type_vector(count=%d, blocklength=%d, stride=%d, %D, new_type_p=%p) failed
+**mpi_type_indexed %d %p %p %D %p:MPI_Type_indexed(count=%d, blocklens=%p, indices=%p, %D, new_type_p=%p) failed
+**mpi_type_size %D %p:MPI_Type_size(%D, size=%p) failed
+**mpi_type_size_x %D %p:MPI_Type_size_x(%D, size=%p) failed
+**mpi_type_commit %p:MPI_Type_commit(datatype_p=%p) failed
+**mpi_type_free %p:MPI_Type_free(datatype_p=%p) failed
+**mpi_get_elements %p %D %p:MPI_Get_elements(status=%p, %D, count=%p) failed
+**mpi_get_elements_x %p %D %p:MPI_Get_elements_x(status=%p, %D, count=%p) failed
+**mpi_pack %p %d %D %p %d %p %C:MPI_Pack(inbuf=%p, incount=%d, %D, outbuf=%p, outcount=%d, position=%p, %C) failed
+**mpi_unpack %p %d %p %p %d %D %C:MPI_Unpack(inbuf=%p, insize=%d, position=%p, outbuf=%p, outcount=%d, %D, %C) failed
+**mpi_pack_size %d %D %C %p:MPI_Pack_size(count=%d, %D, %C, size=%p) failed
+**mpi_barrier %C:MPI_Barrier(%C) failed
+**mpi_bcast %p %d %D %d %C:MPI_Bcast(buf=%p, count=%d, %D, root=%d, %C) failed
+**mpi_gather %p %d %D %p %d %D %d %C:MPI_Gather(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, root=%d, %C) failed
+**mpi_gatherv %p %d %D %p %p %p %D %d %C:MPI_Gatherv failed(sbuf=%p, scount=%d, %D, rbuf=%p, rcnts=%p, displs=%p, %D, root=%d, %C) failed
+**mpi_scatter %p %d %D %p %d %D %d %C:MPI_Scatter(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, root=%d, %C) failed
+**mpi_scatterv %p %p %p %D %p %d %D %d %C:MPI_Scatterv(sbuf=%p, scnts=%p, displs=%p, %D, rbuf=%p, rcount=%d, %D, root=%d, %C) failed
+**mpi_allgather %p %d %D %p %d %D %C:MPI_Allgather(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, %C) failed
+**mpi_allgatherv %p %d %D %p %p %p %D %C:MPI_Allgatherv(sbuf=%p, scount=%d, %D, rbuf=%p, rcounts=%p, displs=%p, %D, %C) failed
+**mpi_alltoall %p %d %D %p %d %D %C:MPI_Alltoall(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, %C) failed
+**mpi_alltoallv %p %p %p %D %p %p %p %D %C:MPI_Alltoallv(sbuf=%p, scnts=%p, sdispls=%p, %D, rbuf=%p, rcnts=%p, rdispls=%p, %D, %C) failed
+**mpi_reduce %p %p %d %D %O %d %C:MPI_Reduce(sbuf=%p, rbuf=%p, count=%d, %D, %O, root=%d, %C) failed
+**mpi_reduce_local %p %p %d %D %O:MPI_Reduce_local(inbuf=%p, inoutbuf=%p, count=%p, %D, %O) failed
+**mpi_iallgather %p %d %D %p %d %D %C %p:MPI_Iallgather(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, %C, request=%p) failed
+**mpi_iallgatherv %p %d %D %p %p %p %D %C %p:MPI_Iallgatherv(sbuf=%p, scount=%d, %D, rbuf=%p, rcounts=%p, displs=%p, %D, %C, request=%p) failed
+**mpi_iallreduce %p %p %d %D %O %C %p:MPI_Iallreduce(sbuf=%p, rbuf=%p, count=%d, %D, %O, %C, request=%p) failed
+**mpi_ialltoall %p %d %D %p %d %D %C %p:MPI_Ialltoall(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, %C, request=%p) failed
+**mpi_ialltoallv %p %p %p %D %p %p %p %D %C %p:MPI_Ialltoallv(sbuf=%p, scnts=%p, sdispls=%p, %D, rbuf=%p, rcnts=%p, rdispls=%p, %D, %C, request=%p) failed
+**mpi_ialltoallw %p %p %p %p %p %p %p %p %C %p:MPI_Ialltoallw(sbuf=%p, scnts=%p, sdispls=%p, stypes=%p, rbuf=%p, rcnts=%p, rdispls=%p, rtypes=%p, %C, request=%p) failed
+**mpi_ibarrier %C %p:MPI_Ibarrier(%C, request=%p) failed
+**mpi_ibcast %p %d %D %d %C %p:MPI_Ibcast(buf=%p, count=%d, %D, root=%d, %C, request=%p) failed
+**mpi_iexscan %p %p %d %D %O %C %p:MPI_Iexscan(sbuf=%p, rbuf=%p, count=%d, %D, %O, %C, request=%p) failed
+**mpi_igather %p %d %D %p %d %D %d %C %p:MPI_Igather(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, root=%d, %C, request=%p) failed
+**mpi_igatherv %p %d %D %p %p %p %D %d %C %p:MPI_Igatherv failed(sbuf=%p, scount=%d, %D, rbuf=%p, rcnts=%p, displs=%p, %D, root=%d, %C, request=%p) failed
+**mpi_ireduce %p %p %d %D %O %d %C %p:MPI_Ireduce(sbuf=%p, rbuf=%p, count=%d, %D, %O, root=%d, %C, request=%p) failed
+**mpi_ireduce_scatter %p %p %p %D %O %C %p:MPI_Ireduce_scatter(sbuf=%p, rbuf=%p, rcnts=%p, %D, %O, %C, request=%p) failed
+**mpi_ireduce_scatter_block %p %p %d %D %O %C %p:MPI_Reduce_scatter_block(sbuf=%p, rbuf=%p, rcnt=%d, %D, %O, %C, request=%p) failed
+**mpi_iscan %p %p %d %D %O %C %p:MPI_Iscan(sbuf=%p, rbuf=%p, count=%d, %D, %O, %C, request=%p) failed
+**mpi_iscatter %p %d %D %p %d %D %d %C %p:MPI_Iscatter(sbuf=%p, scount=%d, %D, rbuf=%p, rcount=%d, %D, root=%d, %C, request=%p) failed
+**mpi_iscatterv %p %p %p %D %p %d %D %d %C %p:MPI_Iscatterv(sbuf=%p, scnts=%p, displs=%p, %D, rbuf=%p, rcount=%d, %D, root=%d, %C, request=%p) failed
+**mpi_op_commutative %O:MPI_Op_commutative(%O) failed
+**mpi_op_create %p %d %p:MPI_Op_create(fn=%p, commute=%d, op=%p) failed
+**mpi_op_free %p:MPI_Op_free(op=%p) failed
+**mpi_allreduce %p %p %d %D %O %C:MPI_Allreduce(sbuf=%p, rbuf=%p, count=%d, %D, %O, %C) failed
+**mpi_reduce_scatter %p %p %p %D %O %C:MPI_Reduce_scatter(sbuf=%p, rbuf=%p, rcnts=%p, %D, %O, %C) failed
+**mpi_reduce_scatter_block %p %p %d %D %O %C:MPI_Reduce_scatter_block(sbuf=%p, rbuf=%p, rcnt=%d, %D, %O, %C) failed
+**mpi_scan %p %p %d %D %O %C:MPI_Scan(sbuf=%p, rbuf=%p, count=%d, %D, %O, %C) failed
+**mpi_group_size %G %p:MPI_Group_size(%G, size=%p) failed
+**mpi_group_rank %G %p:MPI_Group_rank(%G, rank=%p) failed
+**mpi_group_translate_ranks %G %d %p %G %p:MPI_Group_translate_ranks(%G, n=%d, ranks1=%p, %G, ranks2=%p) failed
+**mpi_group_compare %G %G %p:MPI_Group_compare(%G, %G, result=%p) failed
+**mpi_comm_group %C %p:MPI_Comm_group(%C, group=%p) failed
+**mpi_group_union %G %G %p:MPI_Group_union(%G, %G, new_group=%p) failed
+**mpi_group_intersection %G %G %p:MPI_Group_intersection(%G, %G, new_group=%p) failed
+**mpi_group_difference %G %G %p:MPI_Group_difference(%G, %G, new_group=%p) failed
+**mpi_group_incl %G %d %p %p:MPI_Group_incl(%G, n=%d, ranks=%p, new_group=%p) failed
+**mpi_group_excl %G %d %p %p:MPI_Group_excl(%G, n=%d, ranks=%p, new_group=%p) failed
+**mpi_group_range_incl %G %d %p %p:MPI_Group_range_incl(%G, n=%d, ranges=%p, new_group=%p) failed
+**mpi_group_range_excl %G %d %p %p:MPI_Group_range_excl(%G, n=%d, ranges=%p, new_group=%p) failed
+**mpi_group_free %p:MPI_Group_free(group=%p) failed
+**mpi_comm_size %C %p:MPI_Comm_size(%C, size=%p) failed
+**mpi_comm_rank %C %p:MPI_Comm_rank(%C, rank=%p) failed
+**mpi_comm_compare %C %C %p:MPI_Comm_compare(%C, %C, result=%p) failed
+**mpi_comm_dup %C %p:MPI_Comm_dup(%C, new_comm=%p) failed
+**mpi_comm_create %C %G %p:MPI_Comm_create(%C, %G, new_comm=%p) failed
+**mpi_comm_split %C %d %d %p:MPI_Comm_split(%C, color=%d, key=%d, new_comm=%p) failed
+**mpi_comm_split_type %C %d %d %I %p:MPI_Comm_split_type(%C, split_type=%d, key=%d, info=%I new_comm=%p) failed
+**mpi_comm_free %p:MPI_Comm_free(comm=%p) failed
+**mpi_comm_test_inter %C %p:MPI_Comm_test_inter(%C, flag=%p) failed
+**mpi_comm_remote_size %C %p:MPI_Comm_remote_size(%C, size=%p) failed
+**mpi_comm_remote_group %C %p:MPI_Comm_remote_group(%C, group=%p) failed
+**mpi_intercomm_create %C %d %C %d %d %p:MPI_Intercomm_create(%C, local_leader=%d, %C, remote_leader=%d, tag=%d, newintercomm=%p) failed
+**mpi_intercomm_merge %C %d %p:MPI_Intercomm_merge(%C, high=%d, newintracomm=%p) failed
+**mpi_topo_test %C %p:MPI_Topo_test(%C, topo_type=%p) failed
+**mpi_cart_create %C %d %p %p %d %p:MPI_Cart_create(%C, ndims=%d, dims=%p, periods=%p, reorder=%d, comm_cart=%p) failed
+**mpi_dims_create %d %d %p:MPI_Dims_create(nnodes=%d, ndims=%d, dims=%p) failed
+**mpi_graph_create %C %d %p %p %d %p:MPI_Graph_create(%C, nnodes=%d, index=%p, edges=%p, reorder=%d, comm_graph=%p) failed
+**mpi_graphdims_get %C %p %p:MPI_Graphdims_get(%C, nnodes=%p, nedges=%p) failed
+**mpi_graph_get %C %d %d %p %p:MPI_Graph_get(%C, maxindex=%d, maxedges=%d, index=%p, edges=%p) failed
+**mpi_cartdim_get %C %p:MPI_Cartdim_get(%C, ndims=%p) failed
+**mpi_cart_get %C %d %p %p %p:MPI_Cart_get(%C, maxdims=%d, dims=%p, periods=%p, coords=%p) failed
+**mpi_cart_rank %C %p %p:MPI_Cart_rank(%C, coords=%p, rank=%p) failed
+**mpi_cart_coords %C %d %d %p:MPI_Cart_coords(%C, rank=%d, maxdims=%d, coords=%p) failed
+**mpi_graph_neighbors_count %C %d %p:MPI_Graph_neighbors_count(%C, rank=%d, nneighbors=%p) failed
+**mpi_graph_neighbors %C %d %d %p:MPI_Graph_neighbors(%C, rank=%d, maxneighbors=%d, neighbors=%p) failed
+**mpi_cart_shift %C %d %d %p %p:MPI_Cart_shift(%C, direction=%d, displ=%d, source=%p, dest=%p) failed
+**mpi_cart_sub %C %p %p:MPI_Cart_sub(%C, remain_dims=%p, comm_new=%p) failed
+**mpi_cart_map %C %d %p %p %p:MPI_Cart_map(%C, ndims=%d, dims=%p, periods=%p, newrank=%p) failed
+**mpi_graph_map %C %d %p %p %p:MPI_Graph_map(%C, nnodes=%d, index=%p, edges=%p, newrank=%p) failed
+**mpi_dist_graph_neighbors_count %C:MPI_Dist_graph_neighbors_count(%C) failed
+**mpi_dist_graph_neighbors %C %d %d:MPI_Dist_graph_neighbors(%C, maxindegree=%d, maxoutdegree=%d) failed
+**mpi_dist_graph_create_adjacent %C %d %p %p %d %p %p %d %d:MPI_Dist_graph_create_adjacent(%C, indegree=%d, sources=%p, sourceweights=%p, outdegree=%d, destinations=%p, destweights=%p, info=%d, reorder=%d) failed
+**mpi_dist_graph_create %C %d %p %p %p %p %d %d:MPI_Dist_graph_create(%C, n=%d, sources=%p, degrees=%p, destinations=%p, weights=%p, info=%d, reorder=%d) failed
+**mpi_get_processor_name %p %p:MPI_Get_processor_name(name=%p, resultlen=%p) failed
+**mpi_get_version %p %p:MPI_Get_version(version=%p, subversion=%p) failed
+**mpi_get_library_version %p %p:MPI_Get_library_version(version=%p, resultlen=%p) failed
+**mpi_errhandler_free %p:MPI_Errhandler_free(errhandler=%p) failed
+**mpi_error_string %d %s %p:MPI_Error_string(errorcode=%d, string=%s, resultlen=%p) failed
+**mpi_error_class %d %p:MPI_Error_class(errorcode=%d, errorclass=%p) failed
+**mpi_init %p %p:MPI_Init(argc_p=%p, argv_p=%p) failed
+**mpi_finalize:MPI_Finalize failed
+**mpi_initialized %p:MPI_Initialized(flag=%p) failed
+**mpi_abort %C %d:MPI_Abort(%C, errorcode=%d) failed
+**mpi_close_port %s:MPI_Close_port(port=\"%s\") failed
+**mpi_comm_accept %s %I %d %C %p:MPI_Comm_accept(port=\"%s\", %I, root=%d, %C, newcomm=%p) failed
+**mpi_comm_connect %s %I %d %C %p:MPI_Comm_connect(port=\"%s\", %I, root=%d, %C, newcomm=%p) failed
+**mpi_comm_disconnect %C:MPI_Comm_disconnect(comm=%C) failed
+**mpi_comm_get_parent %p:MPI_Comm_get_parent(comm=%p) failed
+**mpi_comm_join %d %p:MPI_Comm_join(fd=%d, intercomm=%p) failed
+**mpi_comm_spawn %s %p %d %I %d %C %p %p:MPI_Comm_spawn(cmd=\"%s\", argv=%p, maxprocs=%d, %I, root=%d, %C, intercomm=%p, errors=%p) failed
+**mpi_comm_spawn_multiple %d %p %p %p %p %d %C %p %p:MPI_Comm_spawn_multiple(count=%d, cmds=%p, argvs=%p, maxprocs=%p, infos=%p, root=%d, %C, intercomm=%p, errors=%p) failed
+**mpi_lookup_name %s %I %p:MPI_Lookup_name(service=\"%s\", %I, port=%p) failed
+**mpi_open_port %I %p:MPI_Open_port(%I, port=%p) failed
+**mpi_publish_name %s %I %s:MPI_Publish_name(service=\"%s\", %I, port=\"%s\") failed
+**mpi_unpublish_name %s %I %s:MPI_Unpublish_name(service=\"%s\", %I, port=\"%s\") failed
+**mpi_accumulate %p %d %D %d %d %d %D %O %W:MPI_Accumulate(origin_addr=%p, origin_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %O, %W) failed
+**mpi_raccumulate %p %d %D %d %d %d %D %O %W %p:MPI_Raccumulate(origin_addr=%p, origin_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %O, %W, request=%p) failed
+**mpi_get %p %d %D %d %d %d %D %W:MPI_Get(origin_addr=%p, origin_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %W) failed
+**mpi_rget %p %d %D %d %d %d %D %W %p:MPI_Rget(origin_addr=%p, origin_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %W, request=%p) failed
+**mpi_put %p %d %D %d %d %d %D %W:MPI_Put(origin_addr=%p, origin_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %W) failed
+**mpi_rput %p %d %D %d %d %d %D %W %p:MPI_Rput(origin_addr=%p, origin_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %W, request=%p) failed
+**mpi_get_accumulate %p %d %D %p %d %D %d %d %d %D %O %W:MPI_Get_accumulate(origin_addr=%p, origin_count=%d, %D, result_addr=%p, result_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %O, %W) failed
+**mpi_rget_accumulate %p %d %D %p %d %D %d %d %d %D %O %W %p:MPI_Rget_accumulate(origin_addr=%p, origin_count=%d, %D, result_addr=%p, result_count=%d, %D, target_rank=%d, target_disp=%d, target_count=%d, %D, %O, %W, request=%p) failed
+**mpi_fetch_and_op %p %p %D %d %d %O %W:MPI_Fetch_and_op(origin_addr=%p, result_addr=%p, %D, target_rank=%d, target_disp=%d, %O, %W) failed
+**mpi_compare_and_swap %p %p %p %D %d %d %W:MPI_Compare_and_swap(origin_addr=%p, compare_addr=%p, result_addr=%p, %D, target_rank=%d, target_disp=%d, %W) failed
+**mpi_win_complete %W:MPI_Win_complete(%W) failed
+**mpi_win_create %p %d %d %I %C %p:MPI_Win_create(base=%p, size=%d, disp_unit=%d, %I, %C, win=%p) failed
+**mpi_win_allocate %d %d %I %C %p %p:MPI_Win_allocate(size=%d, disp_unit=%d, %I, %C, baseptr=%p, win=%p) failed
+**mpi_win_allocate_shared %d %d %I %C %p %p:MPI_Win_allocate_shared(size=%d, disp_unit=%d, %I, %C, baseptr=%p, win=%p) failed
+**mpi_win_create_dynamic %I %C %p:MPI_Win_create(%I, %C, win=%p) failed
+**mpi_win_shared_query %p %d %d %d %p:MPI_Win_shared_query(win=%p, rank=%d, size=%d, disp_unit=%d, baseptr=%p) failed
+**mpi_win_fence %A %W:MPI_Win_fence(%A, %W) failed
+**mpi_win_free %p:MPI_Win_free(win=%p) failed
+**mpi_win_get_group %W %p:MPI_Win_get_group(%W, group=%p) failed
+**mpi_win_lock %d %d %A %W:MPI_Win_lock(lock_type=%d, rank=%d, %A, %W) failed
+**mpi_win_lock_all %A %W:MPI_Win_lock_all(%A, %W) failed
+**mpi_win_post %G %A %W:MPI_Win_post(%G, %A, %W) failed
+**mpi_win_start %G %A %W:MPI_Win_start(%G, %A, %W) failed
+**mpi_win_test %W %p:MPI_Win_test(%W, flag=%p) failed
+**mpi_win_unlock %d %W:MPI_Win_unlock(rank=%d, %W) failed
+**mpi_win_unlock_all %W:MPI_Win_unlock_all(%W) failed
+**mpi_win_flush %d %W:MPI_Win_flush(rank=%d, %W) failed
+**mpi_win_flush_all %W:MPI_Win_flush_all(%W) failed
+**mpi_win_flush_local %d %W:MPI_Win_flush_local(rank=%d, %W) failed
+**mpi_win_flush_local_all %W:MPI_Win_flush_local_all(%W) failed
+**mpi_win_sync %W:MPI_Win_sync(%W) failed
+**mpi_win_wait %W:MPI_Win_wait(%W) failed
+**mpi_win_attach %W %p %d:MPI_Win_attach(win=%W, base=%p, size=%d) failed
+**mpi_win_detach %W %p:MPI_Win_detach(win=%W, base=%p) failed
+**mpi_alltoallw %p %p %p %p %p %p %p %p %C:MPI_Alltoallw(sbuf=%p, scnts=%p, sdispls=%p, stypes=%p, rbuf=%p, rcnts=%p, rdispls=%p, rtypes=%p, %C) failed
+**mpi_exscan %p %p %d %D %O %C:MPI_Exscan(sbuf=%p, rbuf=%p, count=%d, %D, %O, %C) failed
+**mpi_add_error_class %p:MPI_Add_error_class(errorclass=%p) failed
+**mpi_add_error_code %d %p:MPI_Add_error_code(errorclass=%d, errorcode=%p) failed
+**mpi_add_error_string %d %s:MPI_Add_error_string(code=%d, str=\"%s\") failed
+**mpi_comm_call_errhandler %C %d:MPI_Comm_call_errhandler(%C, errorcode=%d) failed
+**mpi_comm_create_keyval %p %p %p %p:MPI_Comm_create_keyval(comm_copy_attr_fn=%p, comm_delete_attr_fn=%p, comm_keyval=%p, extra_state=%p) failed
+**mpi_comm_delete_attr %C %d:MPI_Comm_delete_attr(%C, comm_keyval=%d) failed
+**mpi_comm_free_keyval %p:MPI_Comm_free_keyval(comm_keyval=%p) failed
+**mpi_comm_get_attr %C %d %p %p:MPI_Comm_get_attr(%C, comm_keyval=%d, attribute_val=%p, flag=%p) failed
+**mpi_comm_get_name %C %p %p:MPI_Comm_get_name(%C, comm_name=%p, resultlen=%p) failed
+**mpi_comm_set_attr %C %d %p:MPI_Comm_set_attr(%C, comm_keyval=%d, attribute_val=%p) failed
+**mpi_comm_set_name %C %s:MPI_Comm_set_name(%C, comm_name=%s) failed
+**mpi_grequest_complete %R:MPI_Grequest_complete(%R) failed
+**mpi_grequest_start %p %p %p %p %p:MPI_Grequest_start(query_fn=%p, free_fn=%p, cancel_fn=%p, extra_state=%p, request=%p) failed
+**mpi_init_thread %p %p %d %p:MPI_Init_thread(argc_p=%p, argv_p=%p, required=%d, provided=%p)
+**mpi_is_thread_main %p:MPI_Is_thread_main(flag=%p) failed
+**mpi_query_thread %p:MPI_Query_thread(provided=%p) failed
+**mpi_status_set_cancelled %p %d:MPI_Status_set_cancelled(status=%p, flag=%d) failed
+**mpi_status_set_elements %p %D %d:MPI_Status_set_elements(status=%p, %D, count=%d) failed
+**mpi_status_set_elements_x %p %D %l:MPI_Status_set_elements_x(status=%p, %D, count=%l) failed
+**mpi_type_create_keyval %p %p %p %p:MPI_Type_create_keyval(type_copy_attr_fn=%p, type_delete_attr_fn=%p, type_keyval=%p, extra_state=%p) failed
+**mpi_type_delete_attr %D %d:MPI_Type_delete_attr(%D, type_keyval=%d) failed
+**mpi_type_dup %D %p:MPI_Type_dup(%D, newtype=%p) failed
+**mpi_type_free_keyval %p:MPI_Type_free_keyval(type_keyval=%p) failed
+**mpi_type_get_attr %D %d %p %p:MPI_Type_get_attr(%D, type_keyval=%d, attribute_val=%p, flag=%p) failed
+**mpi_type_get_contents %D %d %d %d %p %p %p:MPI_Type_get_contents(%D, max_integers=%d, max_addresses=%d, max_datatypes=%d, array_of_integers=%p, array_of_addresses=%p, array_of_datatypes=%p) failed
+**mpi_type_get_envelope %D %p %p %p %p:MPI_Type_get_envelope(%D, num_integers=%p, num_addresses=%p, num_datatypes=%p, combiner=%p) failed
+**mpi_type_get_name %D %p %p:MPI_Type_get_name(%D, type_name=%p, resultlen=%p) failed
+**mpi_type_set_attr %D %d %p:MPI_Type_set_attr(%D, type_keyval=%d, attribute_val=%p) failed
+**mpi_type_set_name %D %s:MPI_Type_set_name(%D, type_name=%s) failed
+**mpi_type_match_size %d %d %p:MPI_Type_match_size(typeclass=%d, size=%d, datatype=%p) failed
+**mpi_win_call_errhandler %W %d:MPI_Win_call_errhandler(%W, errorcode=%d) failed
+**mpi_win_create_keyval %p %p %p %p:MPI_Win_create_keyval(win_copy_attr_fn=%p, win_delete_attr_fn=%p, win_keyval=%p, extra_state=%p) failed
+**mpi_win_delete_attr %W %d:MPI_Win_delete_attr(%W, win_keyval=%d) failed
+**mpi_win_free_keyval %p:MPI_Win_free_keyval(win_keyval=%p) failed
+**mpi_win_get_attr %W %d %p %p:MPI_Win_get_attr(%W, win_keyval=%d, attribute_val=%p, flag=%p) failed
+**mpi_win_get_name %W %p %p:MPI_Win_get_name(%W, win_name=%p, resultlen=%p) failed
+**mpi_win_set_attr %W %d %p:MPI_Win_set_attr(%W, win_keyval=%d, attribute_val=%p) failed
+**mpi_win_set_name %W %s:MPI_Win_set_name(%W, win_name=%s) failed
+**mpi_alloc_mem %p %I %p:MPI_Alloc_mem(size=%p, %I, baseptr=%p) failed
+**mpi_comm_create_errhandler %p %p:MPI_Comm_create_errhandler(function=%p, errhandler=%p) failed
+**mpi_comm_get_errhandler %C %p:MPI_Comm_get_errhandler(%C, errhandler=%p) failed
+**mpi_comm_set_errhandler %C %E:MPI_Comm_set_errhandler(%C, %E) failed
+**mpi_file_create_errhandler %p %p:MPI_File_create_errhandler(function=%p, errhandler=%p) failed
+**mpi_file_get_errhandler %F %p:MPI_File_get_errhandler(%F, errhandler=%p) failed
+**mpi_file_set_errhandler %F %E:MPI_File_set_errhandler(%F, %E) failed
+**mpi_finalized %p:MPI_Finalized(flag=%p) failed
+**mpi_get_address %p %p:MPI_Get_address(location=%p, address=%p) failed
+**mpi_info_create %p:MPI_Info_create(info=%p) failed
+**mpi_info_delete %I %s:MPI_Info_delete(%I, key=%s) failed
+**mpi_info_dup %I %p:MPI_Info_dup(%I, newinfo=%p) failed
+**mpi_info_free %p:MPI_Info_free(info=%p) failed
+**mpi_info_get %I %s %d %p %p:MPI_Info_get(%I, key=%s, valuelen=%d, value=%p, flag=%p) failed
+**mpi_info_get_nkeys %I %p:MPI_Info_get_nkeys(%I, nkeys=%p) failed
+**mpi_info_get_nthkey %I %d %p:MPI_Info_get_nthkey(%I, n=%d, key=%p) failed
+**mpi_info_get_valuelen %I %s %p %p:MPI_Info_get_valuelen(%I, key=%s, valuelen=%p, flag=%p) failed
+**mpi_info_set %I %s %s:MPI_Info_set(%I, key=%s, value=%s) failed
+**mpi_pack_external %s %p %d %D %p %d %p:MPI_Pack_external(datarep=%s, inbuf=%p, incount=%d, %D, outbuf=%p, outcount=%d, position=%p) failed
+**mpi_pack_external_size %s %d %D %p:MPI_Pack_external_size(datarep=%s, incount=%d, %D, size=%p) failed
+**mpi_request_get_status %R %p %p:MPI_Request_get_status(%R, flag=%p, status=%p) failed
+**mpi_type_create_darray %d %d %d %p %p %p %p %d %D %p:MPI_Type_create_darray(size=%d, rank=%d, ndims=%d, array_of_gsizes=%p, array_of_distribs=%p, array_of_dargs=%p, array_of_psizes=%p, order=%d, %D, newtype=%p) failed
+**mpi_type_create_hindexed %d %p %p %D %p:MPI_Type_create_hindexed(count=%d, array_of_blocklengths=%p, array_of_displacements=%p, %D, newtype=%p) failed
+**mpi_type_create_hindexed_block %d %d %p %D %p:MPI_Type_create_hindexed_block(count=%d, blocklength=%d, array_of_displacements=%p, %D, newtype=%p) failed
+**mpi_type_create_hvector %d %d %d %D %p:MPI_Type_create_hvector(count=%d, blocklength=%d, stride=%d, %D, newtype=%p) failed
+**mpi_type_create_indexed_block %d %d %p %D %p:MPI_Type_create_indexed_block(count=%d, blocklength=%d, array_of_displacements=%p, %D, newtype=%p) failed
+**mpi_type_create_resized %D %d %d %p:MPI_Type_create_resized(%D, lb=%d, extent=%d, newtype=%p) failed
+**mpi_type_create_struct %d %p %p %p %p:MPI_Type_create_struct(count=%d, array_of_blocklengths=%p, array_of_displacements=%p, array_of_types=%p, newtype=%p) failed
+**mpi_type_create_subarray %d %p %p %p %d %D %p:MPI_Type_create_subarray(ndims=%d, array_of_sizes=%p, array_of_subsizes=%p, array_of_starts=%p, order=%d, %D, newtype=%p) failed
+**mpi_type_get_extent %D %p %p:MPI_Type_get_extent(%D, lb=%p, extent=%p) failed
+**mpi_type_get_extent_x %D %p %p:MPI_Type_get_extent_x(%D, lb=%p, extent=%p) failed
+**mpi_type_get_true_extent %D %p %p:MPI_Type_get_true_extent(%D, lb=%p, true_extent=%p) failed
+**mpi_type_get_true_extent_x %D %p %p:MPI_Type_get_true_extent_x(%D, lb=%p, true_extent=%p) failed
+**mpi_unpack_external %s %p %d %p %p %d %D:MPI_Unpack_external(datarep=%s, inbuf=%p, insize=%d, position=%p, outbuf=%p, outcount=%d, %D) failed
+**mpi_win_create_errhandler %p %p:MPI_Win_create_errhandler(function=%p, errhandler=%p) failed
+**mpi_win_get_errhandler %W %p:MPI_Win_get_errhandler(%W, errhandler=%p) failed
+**mpi_win_set_errhandler %W %E:MPI_Win_set_errhandler(%W, %E) failed
+**mpi_register_datarep %s %p %p %p %p:MPI_Register_datarep(datarep=%s, read_conversion_fn=%p, write_conversion_fn=%p, dtype_file_extent_fn=%p, extra_state=%p) failed
+
+#
+# msmpi functions
+#
+**msmpi_req_set_apc %R %p %p:MSMPI_Request_set_apc(%R, callback_fn=%p, callback_status=%p) failed
+**msmpi_waitsome_interruptible %d %p %p %p %p:MSMPI_Waitsome_interruptible(count=%d, req_array=%p, out_count=%p, indices=%p, status_array=%p) failed
+
+#
+# Compression
+#
+**unableToLoadDLL: Unable to load a dynamically loadable library
+**failureGetProcAddress %d:Call to GetProcAddress failed (errno %d)
+**failureCompressionWorkSpace %d:Call to RtlGetCompressionWorkSpaceSize failed (errno %d)
+**compressionMinimum %d %d:The provided compression threshold of %d was too small. \
+Try again with a threshold no less than %d
+**decompressFailure %d:Decompression of a message failed (errno %d)
+**nullPayloadRequest:The initial clear to send request has an invalid sender request id.
+
+#
+# SMP Awareness
+#
+**frequency:This machine does not support high frequency performance counters.
+**measurementfailed:Measurement of collective failed.
+**nodeids:Unable to read node ids.
+**badenv %s:Invalid value for %s environment variable.
+
+
+#
+# Parsing Util
+#
+**rangedup %s %d:The specified range %s contains duplicate entries; rank %d \
+ appeared more than once
+**invalidrange %s: The specified range %s is invalid
+
+#
+# Dynamic Process related
+#
+**dynamicStartFailedEnv:The dynamic server failed to start. Invalid environment variable value given for MSMPI_ACCEPT_PORT.
+**dynamicStartFailed %d:The dynamic server failed to start with status %d.
+**dynamicNewPortFailed:The dynamic server failed to open a new port.
+**dynamicInvalidPort %s:No server is accepting connection on port %s.
+**dynamicInvalidBindingString %s:The specified binding %s is invalid.
+**dynamicBindingFromStringFailed %s %d:Failed to create RPC binding from the specified port string %s (errno %d).
+**dynamicBindingSetAuthFailed %d:Failed to set authentication on the RPC binding (errno %d).
+**dynamicTimedOut:The accept server is too busy.
+**dynamicCreateContextFailed %d:Failed to establish context with the server (errno %d).
+**dynamicInternalFailure:Internal error while trying to collect process groups information from the local communicator.
+**dynamicInitializeAsyncFailed %d:Failed to initialize Asynchronous RPC (errno %d).
+**dynamicWaitForAsyncFailed %d:Failed to initialize asynchronous RPC (errno %d).
+**dynamicCompleteAsyncFailed %d:Failed to complete asynchronous RPC (errno %d).
+**dynamicExchangeInfoFailed %d:Failed to exchange information with the Accept Server (errno %d).
+**dynamicRootConnectAcceptFailed:The root of this operation indicated that it experienced an error.
+**dynamicClientRPCFailed:An error on the client side resulted in the cancellation of the RPC call.
+
+#
+# Print environment block
+#
+**badfile %s:The requested file could not be opened to write the environment block. %s.
+**envexpand:The environment variables in MSMPI_PRINT_ENVIRONMENT_BLOCK_FILE could not be expanded.
+**getenvfailed:Unable to get the environment block for the process.
+**freeenvfailed:Unable to free the environment block for the process.
+
+#
+# Casting values to type int results in truncation
+#
+**packtruncate:The size of the packed data was larger than could be represented using an integer.
+**unpacktruncate:The size of the unpacked data was larger than could be represented using an integer.
+
+# -----------------------------------------------------------------------------
+# The following names are defined but not used (see the -careful option
+# for extracterrmsgs) (still to do: move the undefined names here)

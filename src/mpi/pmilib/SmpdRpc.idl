@@ -1,0 +1,797 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+import "wtypes.idl";
+import "hwtree_common.h";
+
+//
+// MIDL const is not the same as C++ const!
+// After the MIDL compiler processes this file the following lines
+// will be turned into:
+//
+// #ifndef MAX_PATH
+// #define MAX_PATH 260
+// #endif
+//
+cpp_quote ("#ifndef MAX_PATH")
+const short MAX_PATH = 260;
+cpp_quote ("#endif")
+
+//
+// MIDL const is not the same as C++ const!
+// After the MIDL compiler processes this file the following lines
+// will be turned into:
+//
+// #ifndef UNICODE_STRING_MAX_CHARS
+// #define UNICODE_STRING_MAX_CHARS 32767
+// #endif
+//
+cpp_quote ("#ifndef UNICODE_STRING_MAX_CHARS")
+const short UNICODE_STRING_MAX_CHARS = 32767;
+cpp_quote ("#endif")
+
+typedef enum
+{
+    SMPD_ABORT = 0,
+    SMPD_ABORT_JOB,
+    SMPD_BARRIER,
+    SMPD_CLOSE,
+    SMPD_CLOSED,
+    SMPD_COLLECT,
+    SMPD_CONNECT,
+    SMPD_BCGET,
+    SMPD_BCPUT,
+    SMPD_DBGET,
+    SMPD_DBPUT,
+    SMPD_DONE,
+    SMPD_EXIT,
+    SMPD_FINALIZE,
+    SMPD_INIT,
+    SMPD_KILL,
+    SMPD_LAUNCH,
+    SMPD_STARTDBS,
+    SMPD_STDIN,
+    SMPD_STDIN_CLOSE,
+    SMPD_STDOUT,
+    SMPD_STDERR,
+    SMPD_SUSPEND,
+    SMPD_PING,
+    SMPD_ADDDBS,
+    SMPD_SPAWN,
+    SMPD_CMD_MAX,
+} SMPD_CMD_TYPE;
+
+
+//
+// The header of PMI commands.
+// Fields:
+// - cmdType: indicates the type of the the PMI commands
+// - src : indicates the id of the originator of the message
+// - dest: indicates the id of the destination
+// - ctx_key: if the command is to/from a PMI client, this is the client id
+//
+typedef struct _SmpdCmdHdr
+{
+    SMPD_CMD_TYPE cmdType;
+    INT16  src;
+    INT16  dest;
+    UINT16 ctx_key;
+} SmpdCmdHdr;
+
+
+//
+// The header of PMI result commands
+// Fields:
+// - src : indicates the id of the originator of the message
+// - dest: indicates the id of the destination
+// - err:  the error code indicating the status of the PMI operation
+//
+typedef struct _SmpdResHdr
+{
+    INT16  src;
+    INT16  dest;
+    DWORD  err;
+} SmpdResHdr;
+
+
+//
+// Generic response structure. Some PMI commands do not need
+// any information beyond what the header provides. Those will
+// use the generic command response to send the result back
+//
+typedef struct _SmdpGenericRes
+{
+    SmpdResHdr header;
+} SmpdGenericRes;
+
+
+//
+// "ABORT" command: sent from SMPD to MPIEXEC to indicate errors
+// Fields:
+// - header: The header (described in the beginning of this file)
+// - error_msg: The error message accompanying the aborted operation
+//
+// Remarks: No reply expected from SMPD.
+//
+typedef struct _SmpdAbortCmd
+{
+    SmpdCmdHdr        header;
+    [string] wchar_t* error_msg;
+} SmpdAbortCmd;
+
+
+//
+// "ABORT_JOB" command: sent from MPI process to MPIEXEC
+// Fields:
+// - header: The header (described in the beginning of this file)
+// - kvs:    The kvs space that this process belongs to
+// - rank:   World rank of this process in the given kvs space
+// - exit_code: Exit code for this abort
+// - intern: Indicates whether the failure is internal
+//
+// Remarks: Upon receiving this command from the MPI process,
+//          MPIEXEC sends suspend command to SMPD's
+//
+typedef struct _SmpdAbortJobCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+    INT32        exit_code;
+    BOOL         intern;
+    [string] wchar_t* error_msg;
+} SmpdAbortJobCmd;
+
+
+//
+// "BARRIER" command: sent from the MPI process to top SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+//
+typedef struct _SmpdBarrierCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+} SmpdBarrierCmd;
+
+
+//
+// "CLOSE" command: sent from smpd/mpiexec to other SMPD
+// Fields:
+// - header: The header (described in the beginning of this file)
+//
+typedef struct _SmpdCloseCmd
+{
+    SmpdCmdHdr header;
+} SmpdCloseCmd;
+
+
+//
+// "CLOSED" command: sent from smpd/mpiexec to other SMPD
+// Fields:
+// - header: The header (described in the beginning of this file)
+//
+typedef struct _SmpdClosedCmd
+{
+    SmpdCmdHdr header;
+} SmpdClosedCmd;
+
+
+//
+// "COLLECT" command: sent from mpiexec to SMPD
+// Fields:
+// - header: The header (described in the beginning of this file)
+// - HostId: The HostId that identifies the target node so that
+//           when the result comes back, we know which node the result
+//           is from
+//
+typedef struct _SmpdCollectCmd
+{
+    SmpdCmdHdr      header;
+    AffinityOptions affOptions;
+    UINT16          nodeProcCount;
+    GUID            kvs;
+    UINT16          HostId;
+    UINT32          cbExplicitAffinity;
+    [size_is(cbExplicitAffinity)] BYTE* ExplicitAffinity;
+} SmpdCollectCmd;
+
+
+//
+// Result for Collect command
+//
+typedef struct _SmpdCollectRes
+{
+    SmpdResHdr   header;
+    //
+    // TODO: Investigate removing HostId as it's being sent in the CollectCmd
+    //
+    UINT16       HostId;
+    UINT16       nodeProcCount;
+    UINT32       cbHwSummary;
+    [size_is(cbHwSummary)] BYTE* hwsummary;
+    UINT32       cbHwTree;
+    [size_is(cbHwTree)] BYTE* hwtree;
+    UINT32       cbAffList;
+    [size_is(cbAffList)] BYTE* affList;
+
+} SmpdCollectRes;
+
+
+//
+// "CONNECT" command: sent from mpiexec to SMPD
+//
+// Fields:
+// - header: The header (described in the beginning of this file)
+// - HostId: The HostId that identifies the id of target node
+// - HostName: The name of the target node
+// - jobObjName: The name of the job object that will contain smpd mgr process for this context
+// - pwd: User's password, if provided
+// - saveCreds: The flag that indicates whether user credentials should be cached or not
+// - retryCount: Number of times to retry the connection
+// - retryInterval: Number of seconds to wait before retrying the connection
+//
+typedef struct _SmpdConnectCmd
+{
+    SmpdCmdHdr        header;
+    wchar_t           hostName[64];
+    [string] wchar_t* jobObjName;
+    [string] wchar_t* pwd;
+    BOOL              saveCreds;
+    UINT16            HostId;
+    UINT32            retryCount;
+    UINT32            retryInterval;
+} SmpdConnectCmd;
+
+
+//
+// Result for "CONNECT" command
+//
+typedef struct _SmpdConnectRes
+{
+    SmpdResHdr   header;
+    BOOL         userInfoNeeded;
+} SmpdConnectRes;
+
+
+//
+// "DBGET" command: sent from the MPI process to top SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - key:     The key in the Key-Value pair being sent in this command
+//
+typedef struct _SmpdDbgetCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    char         key[32];
+} SmpdDbgetCmd;
+
+
+//
+// Result for "DBGET" command
+//
+typedef struct _SmpdDbgetRes
+{
+    SmpdResHdr   header;
+    char         value[512];
+} SmpdDbgetRes;
+
+
+//
+// "DBPUT" command: sent from the MPI process to top SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - key:     The key in the Key-Value pair being sent in this command
+// - value:   The value in the Key-Value pair being sent in this message
+//
+typedef struct _SmpdDbputCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    char         key[32];
+    char         value[512];
+} SmpdDbputCmd;
+
+
+//
+// "BCGET" command: sent from the MPI process to top SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - rank:    The rank to obtain the business card for
+// - nprocs:  The number of processes in the process group of the process sending this command
+//
+typedef struct _SmpdBcgetCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+    UINT16       nprocs;
+} SmpdBcgetCmd;
+
+
+//
+// Result for "BCGET" command
+//
+typedef struct _SmpdBcgetRes
+{
+    SmpdResHdr   header;
+    char         value[512];
+} SmpdBcgetRes;
+
+
+//
+// "BCPUT" command: sent from the MPI process to top SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - rank:    The rank of the process sending this business card
+// - nprocs:  The number of processes in the process group of the process sending this business card
+// - value:   The value in the Key-Value pair being sent in this message
+//
+typedef struct _SmpdBcputCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+    UINT16       nprocs;
+    char         value[512];
+} SmpdBcputCmd;
+
+
+
+
+//
+// "EXIT" command: sent from SMPD to MPIEXEC to indicate that a process
+//                 has exit/terminated
+// Fields
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - rank:    The global rank of the process
+// - exit_code: The exit code of the exited process
+//
+typedef struct _SmpdExitCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+    INT32        exit_code;
+} SmpdExitCmd;
+
+
+//
+// "FINALIZE" command: sent from the MPI process to root (MPIEXEC)
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - node_id: The id of the node to which this process belongs
+// - rank:    The rank of this process
+//
+// Remarks: MPI process sends this to mpiexec to indicate it
+// will exit without errors.
+//
+typedef struct _SmpdFinalizeCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       node_id;
+    UINT16       rank;
+} SmpdFinalizeCmd;
+
+
+//
+// "INIT"" command: sent from the MPI process to root (MPIEXEC)
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - node_id: The id of the node to which this process belongs
+// - rank:    The rank of this process
+// - size:    The world's size
+//
+// Remarks: Each process sends this to the root to indicate it
+// has started and has executed PMI_Init()
+//
+typedef struct _SmpdInitCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       node_id;
+    UINT16       rank;
+    UINT16       size;
+} SmpdInitCmd;
+
+
+//
+// "KILL"" command: sent from the MPIEXEC to SMPD (and then to the MPI process)
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - exit_code: The exit code that the process should exit with
+//
+typedef struct _SmpdKillCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    INT32        exit_code;
+} SmpdKillCmd;
+
+
+//
+// "LAUNCH" command: send from MPIEXEC to SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - appExe:  The app exe (might include the path)
+// - appArgs: The app's arguments
+// - appNum:  The app's number (in case we have multiple blocks on mpiexec)
+// - env:     The list of environment variables (set by -env or -genv)
+// - wdir:    The working directory (set by -wdir)
+// - path:    The path (set by -path or -gpath])
+// - rank:    The global rank of this process (PMI_RANK)
+// - kvs:     The kvs name for this process
+// - domain:  The domain name for this process
+// - priorityClass: The thread priority for this process
+// - rankCount: number of ranks
+// - totalRankCount: total number of processes being started (for Spawn)
+// - rankArray: the assigned world ranks for this launching block
+// - fSpawned: are the processes being started by MPI_Comm_spawn
+// - parentPortName: name of port for the child processes to connect back (for Spawn)
+//
+typedef struct _SmpdLaunchCmd
+{
+    SmpdCmdHdr     header;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* appExe;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* appArgs;
+    UINT8          appNum;
+    UINT16         envCount;
+    [size_is(envCount,), string] wchar_t** env;
+    [string, max_is(MAX_PATH)] wchar_t* wdir;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* path;
+    UINT16         nodeProcOrder;
+    GUID           kvs;
+    GUID           domain;
+    DWORD          priorityClass;
+    UINT16         rankCount;
+    UINT16         totalRankCount;
+    [size_is(rankCount)] UINT16* rankArray;
+    UINT16         nproc;
+    [size_is(nproc)] UINT16* node_ids;
+    BOOL           fSpawned;
+    [string] char* parentPortName;
+} SmpdLaunchCmd;
+
+
+//
+// Result for "LAUNCH" command
+//
+typedef struct _SmpdLaunchRes
+{
+    SmpdResHdr   header;
+    UINT16       rankCount;
+    [size_is(rankCount)] UINT16* ctxkeyArray;
+    UINT32       count;
+    [size_is(count)] wchar_t* error_msg;
+} SmpdLaunchRes;
+
+
+//
+// "SPAWN" command: send from  mpi process to MPIEXEC
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that spawned processes belong to
+// - appExe:  The app exe (might include the path)
+// - appArgv: The app's arguments
+// - envList: List of envoronment variables to be set for spawnned processes in format "Name1=Value1,Name2=Value2,..."
+// - wdir:    The working directory (set by -wdir)
+// - path:    Path where to look for the executables for the spawnned processes
+// - hosts:   Instructions about where the spawnned processes should run
+// - parentPortName: Name of port for the child processes to connect back (for Spawn)
+// - rankCount: Number of ranks for this app
+// - startRank: The first rank for this app (ranks are between (startRank) and (startRank+rankCount-1))
+// - appNum:  The app's number (in case we have spawn multiple)
+// - done:    Is it the last command for current MPI_Comm_spawn_multiple
+//
+typedef struct _SmpdSpawnCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* appExe;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* appArgv;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* envList;
+    [string, max_is(MAX_PATH)] wchar_t* wDir;
+    [string, max_is(MAX_PATH)] wchar_t* path;
+    [string, max_is(UNICODE_STRING_MAX_CHARS)] wchar_t* hosts;
+    [string] char* parentPortName;
+    UINT16       rankCount;
+    UINT16       totalRankCount;
+    UINT16       startRank;
+    UINT8        appNum;
+    BOOL         done;
+} SmpdSpawnCmd;
+
+
+//
+// Result for "SPAWN" command
+//
+typedef struct _SmpdSpawnRes
+{
+    SmpdResHdr   header;
+} SmpdSpawnRes;
+
+
+//
+// "START_DBS" command: Sent from MPIEXEC to top SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+//
+// Remarks: KVS
+//
+typedef struct _SmpdStartDbsCmd
+{
+    SmpdCmdHdr header;
+} SmpdStartDbsCmd;
+
+
+//
+// START_DBS Result Command
+//
+typedef struct _SmpdStartDbsRes
+{
+    SmpdResHdr   header;
+    GUID         kvs;
+    GUID         domain;
+} SmpdStartDbsRes;
+
+
+//
+// "ADD_DBS" command: Sent from MPIEXEC to top SMPD when serving Spawn
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - nprocs:  Number of processes to spawn
+//
+typedef struct _SmpdAddDbsCmd
+{
+    SmpdCmdHdr header;
+    UINT16     nproc;
+    GUID       kvs;
+} SmpdAddDbsCmd;
+
+
+//
+// ADD_DBS Result Command
+//
+typedef struct _SmpdAddDbsRes
+{
+    SmpdResHdr   header;
+} SmpdAddDbsRes;
+
+
+//
+// "STDIN" command: Sent from MPIEXEC to SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - data:    The stdin data to forward from mpiexec to smpd
+//
+typedef struct _SmpdStdinCmd
+{
+    SmpdCmdHdr   header;
+    UINT32       size;
+    [size_is(size)] BYTE* buffer;
+} SmpdStdinCmd;
+
+
+//
+// "STDIN_CLOSE" command: Sent from MPIEXEC to SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+//
+typedef struct _SmpdStdinCloseCmd
+{
+    SmpdCmdHdr header;
+} SmpdStdinCloseCmd;
+
+
+//
+// "STDOUT" command: Sent from SMPD to MPIEXEC
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space where the stdout data originated from
+// - rank:    The rank where the stdout data originated from
+// - data:    The stdout data
+//
+// Remarks: SMPD receives stdout from the process and uses this command
+//          to forward the data to mpiexec
+//
+typedef struct _SmpdStdoutCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+    UINT32       size;
+    [size_is(size)] BYTE* buffer;
+} SmpdStdoutCmd;
+
+
+//
+// "STDERR" command: Sent from SMPD to MPIEXEC
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space where the stderr data originated from
+// - rank:    The rank where the stderr data originated from
+// - data:    The stderr data
+//
+// Remarks: DO NOT USE THIS STRUCTURE - Use the stdout structure
+//          This structure is here so we can use the command type
+//          as part of the non-encapsulated MIDL union. The code
+//          should be using the same stdout/stderr structure.
+//          This structure also needs to be exactly the same as
+//          the stdout structure.
+//
+typedef struct _SmpdStderrCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+    UINT32       size;
+    [size_is(size)] BYTE* buffer;
+} SmpdStderrCmd;
+
+
+//
+// "SUSPEND" command: Sent from MPIEXEC to SMPD
+// Fields:
+// - header:  The header (described in the beginning of this file)
+// - kvs:     The kvs space that this process belongs to
+// - rank:    The rank of this process
+//
+typedef struct _SmpdSuspendCmd
+{
+    SmpdCmdHdr   header;
+    GUID         kvs;
+    UINT16       rank;
+} SmpdSuspendCmd;
+
+
+typedef struct _SmpdPingCmd
+{
+    SmpdCmdHdr   header;
+} SmpdPingCmd;
+
+
+typedef [switch_type(SMPD_CMD_TYPE)] union _SmpdCmdData_t
+{
+    [case(SMPD_ABORT)]         SmpdAbortCmd        AbortCmd;
+    [case(SMPD_ABORT_JOB)]     SmpdAbortJobCmd     AbortJobCmd;
+    [case(SMPD_BARRIER)]       SmpdBarrierCmd      BarrierCmd;
+    [case(SMPD_BCGET)]         SmpdBcgetCmd        BcgetCmd;
+    [case(SMPD_BCPUT)]         SmpdBcputCmd        BcputCmd;
+    [case(SMPD_CLOSE)]         SmpdCloseCmd        CloseCmd;
+    [case(SMPD_CLOSED)]        SmpdClosedCmd       ClosedCmd;
+    [case(SMPD_COLLECT)]       SmpdCollectCmd      CollectCmd;
+    [case(SMPD_CONNECT)]       SmpdConnectCmd      ConnectCmd;
+    [case(SMPD_DBGET)]         SmpdDbgetCmd        DbgetCmd;
+    [case(SMPD_DBPUT)]         SmpdDbputCmd        DbputCmd;
+    [case(SMPD_EXIT)]          SmpdExitCmd         ExitCmd;
+    [case(SMPD_FINALIZE)]      SmpdFinalizeCmd     FinalizeCmd;
+    [case(SMPD_INIT)]          SmpdInitCmd         InitCmd;
+    [case(SMPD_KILL)]          SmpdKillCmd         KillCmd;
+    [case(SMPD_LAUNCH)]        SmpdLaunchCmd       LaunchCmd;
+    [case(SMPD_STARTDBS)]      SmpdStartDbsCmd     StartDbsCmd;
+    [case(SMPD_STDIN)]         SmpdStdinCmd        StdinCmd;
+    [case(SMPD_STDIN_CLOSE)]   SmpdStdinCloseCmd   StdinCloseCmd;
+    [case(SMPD_STDOUT)]        SmpdStdoutCmd       StdoutCmd;
+    [case(SMPD_STDERR)]        SmpdStderrCmd       StderrCmd;
+    [case(SMPD_SUSPEND)]       SmpdSuspendCmd      SuspendCmd;
+    [case(SMPD_PING)]          SmpdPingCmd         PingCmd;
+    [case(SMPD_ADDDBS)]        SmpdAddDbsCmd       AddDbsCmd;
+    [case(SMPD_SPAWN)]         SmpdSpawnCmd        SpawnCmd;
+    [default]                  ;
+} SmpdCmd;
+
+
+//
+// For the result type we need a callback to invoke the result handler
+// We use this as an inner struct and have SmpdRes wrap this union
+//
+typedef [switch_type(SMPD_CMD_TYPE)] union _SmpdRes
+{
+    [case(SMPD_BCGET)]    SmpdBcgetRes    BcgetRes;
+    [case(SMPD_CONNECT)]  SmpdConnectRes  ConnectRes;
+    [case(SMPD_COLLECT)]  SmpdCollectRes  CollectRes;
+    [case(SMPD_DBGET)]    SmpdDbgetRes    DbgetRes;
+    [case(SMPD_LAUNCH)]   SmpdLaunchRes   LaunchRes;
+    [case(SMPD_STARTDBS)] SmpdStartDbsRes StartDbsRes;
+    [case(SMPD_ADDDBS)]   SmpdAddDbsRes   AddDbsRes;
+    [case(SMPD_SPAWN)]    SmpdSpawnRes    SpawnRes;
+    [default]             SmpdGenericRes  GenericRes;
+} SmpdRes;
+
+
+//
+// SMPD Service Interface.
+// SMPD Daemon and msmpisvc use this interface.
+//
+[
+    uuid(a0f243c6-9d73-4063-85bc-9ea1f386195d),
+    version(1.0),
+    pointer_default(unique),
+]
+
+
+interface SmpdSvcRpc
+{
+    typedef [context_handle] PVOID SmpdSvcHandle;
+
+    int __stdcall
+    CreateSmpdSvcContext(
+        [in] handle_t hClientBinding,
+        [in,string,max_is(127)] const char*  pJobContext,
+        [in] unsigned int                    clientPMPVersion,
+        [in, string] const char*             pJobName,
+        [in,string] const char*              pPwd,
+        [in] BOOL                            saveCreds,
+        [out] SmpdSvcHandle*                 phContext
+        );
+
+    HRESULT __stdcall
+    StartMgr(
+        [in] SmpdSvcHandle  hContext,
+        [out] UINT16*       reconnectPort
+        );
+
+    int __stdcall
+    DeleteSmpdSvcContext(
+        [in, out] SmpdSvcHandle* phContext
+        );
+}
+
+
+//
+// SMPD Manager Interface. The spawned SMPD instance will use this interface.
+//
+[
+    uuid(4fd29f8a-d2e2-485e-9eb9-ad66107a5d06),
+    version(1.0),
+    pointer_default(unique),
+]
+
+interface SmpdMgrRpc
+{
+    typedef [context_handle] PVOID SmpdMgrHandle;
+
+    DWORD __stdcall
+    CreateSmpdMgrContext(
+        [in] handle_t                      hClientBinding,
+        [in] UINT                          clientPMPVersion,
+        [in, string] const wchar_t*        parentHostname,
+        [in, size_is(dataLen)] const byte* pData,
+        [in] DWORD                         dataLen,
+        [out] SmpdMgrHandle*               phContext
+        );
+
+
+    void __stdcall
+    SmpdMgrCommandAsync(
+        [in] SmpdMgrHandle                      pContext,
+        [in] SMPD_CMD_TYPE                      cmdType,
+        [in, switch_is(cmdType)]  SmpdCmd*      pCmd,
+        [out, switch_is(cmdType)] SmpdRes*      pRes
+        );
+
+
+    void __stdcall
+    SmpdMgrCommandSync(
+        [in] SmpdMgrHandle                      pContext,
+        [in] SMPD_CMD_TYPE                      cmdType,
+        [in, switch_is(cmdType)]  SmpdCmd*      pCmd,
+        [out, switch_is(cmdType)] SmpdRes*      pRes
+        );
+
+
+    DWORD __stdcall
+    DeleteSmpdMgrContext(
+        [in, out] SmpdMgrHandle*  phContext
+        );
+}

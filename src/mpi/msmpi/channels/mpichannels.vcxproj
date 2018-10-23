@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\msmpi.props" />
+
+  <PropertyGroup Label="Globals">
+    <TargetName>mpichannels</TargetName>
+    <ProjectGuid>{d3964fd5-1228-4987-a44b-63d32da75c45}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\pch_hdr.src</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\mpid;
+        $(O);
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include=".\ch3i_overlapped.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include=".\ch3i_bootstrapq.cpp" />
+    <ClCompile Include=".\ch3_finalize.cpp" />
+    <ClCompile Include=".\ch3_init.cpp" />
+    <ClCompile Include=".\ch3_progress.cpp" />
+    <ClCompile Include=".\ch3_progress_connect.cpp" />
+    <ClCompile Include=".\ch3_progress_shm.cpp" />
+    <ClCompile Include=".\ch3_progress_sock.cpp" />
+    <ClCompile Include=".\ch3_shm.cpp" />
+    <ClCompile Include=".\ch3_shm_memory.cpp" />
+    <ClCompile Include=".\ch3u_connect_nd.cpp" />
+    <ClCompile Include=".\ch3u_connect_sock.cpp" />
+    <ClCompile Include=".\ch3u_finalize_sshm.cpp" />
+    <ClCompile Include=".\ch3u_get_business_card_sshm.cpp" />
+    <ClCompile Include=".\ch3u_init_sock.cpp" />
+    <ClCompile Include=".\ch3u_init_sshm.cpp" />
+    <ClCompile Include=".\ch3u_nd1_adapter.cpp" />
+    <ClCompile Include=".\ch3u_nd1_core.cpp" />
+    <ClCompile Include=".\ch3u_nd1_cq.cpp" />
+    <ClCompile Include=".\ch3u_nd1_endpoint.cpp" />
+    <ClCompile Include=".\ch3u_nd1_env.cpp" />
+    <ClCompile Include=".\ch3u_nd1_mr.cpp" />
+    <ClCompile Include=".\ch3u_nd1_mw.cpp" />
+    <ClCompile Include=".\ch3u_nd2_adapter.cpp" />
+    <ClCompile Include=".\ch3u_nd2_core.cpp" />
+    <ClCompile Include=".\ch3u_nd2_cq.cpp" />
+    <ClCompile Include=".\ch3u_nd2_endpoint.cpp" />
+    <ClCompile Include=".\ch3u_nd2_env.cpp" />
+    <ClCompile Include=".\ch3u_nd2_mr.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="NetworkDirect" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\common\traceManifest.vcxproj">
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\msmpi.props" />
+
+  <PropertyGroup>
+    <NO_MPICH_DLL>true</NO_MPICH_DLL>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <StagingOutputPath>$(MPI_SDK_DESTINATION)\lib</StagingOutputPath>
+    <OutFileType>*.lib</OutFileType>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <Lib>
+<AdditionalOptions Condition="'$(Platform)'=='x86'"> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+    </Lib>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <CL_Exe>cl.exe</CL_Exe>
+  </PropertyGroup>
+
+  <Target Name="GenerateEmptyCFile"
+          BeforeTargets="ClCompile"
+          Inputs="..\$(BuildArchitecture).$(CallingConvention).alias"
+          Outputs="$(O)\$(BuildArchitecture).$(CallingConvention).obj">
+    <Exec ConsoleToMsBuild="true" IgnoreExitCode="true" Command="cmd /c echo //empty file >$(O)\$(BuildArchitecture).$(CallingConvention).c"/>
+    <!-- Call CL.exe directly without flags so that aliasobj is able to process the .obj file. -->
+    <Exec ConsoleToMsBuild="true" IgnoreExitCode="true" Command="cmd /c $(CL_Exe) /Fo$(O)\$(BuildArchitecture).$(CallingConvention).obj -c $(O)\$(BuildArchitecture).$(CallingConvention).c"/>
+  </Target>
+
+  <Target Name="EditAlias"
+          AfterTargets="ClCompile"
+          Inputs="..\$(BuildArchitecture).$(CallingConvention).alias;$(O)\$(BuildArchitecture).$(CallingConvention).obj"
+          Outputs="$(OutDir)\$(TargetName).lib">
+    <Exec ConsoleToMsBuild="true" IgnoreExitCode="true" Command="copy ..\$(BuildArchitecture).$(CallingConvention).alias $(O)\$(BuildArchitecture).$(CallingConvention).alias"/>
+    <Exec ConsoleToMsBuild="true" IgnoreExitCode="true" Command="$(PUBLIC_RAZZLE_TOOLS)\amd64\aliasobj $(O)\$(BuildArchitecture).$(CallingConvention).obj $(O)\$(BuildArchitecture).$(CallingConvention).alias > $(O)\aliasobj.log"/>
+  </Target>
+</Project>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\msmpi.props" />
+
+  <PropertyGroup Label="Globals">
+    <TargetName>msmpi</TargetName>
+    <ProjectGuid>{d31839a6-d2db-4ade-8348-4dd3f9d4d12f}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\channels;
+        $(MPI_SRC_ROOT)\msmpi\mpid;
+        .\$(O)
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EntryPointSymbol Condition="'$(BuildArchitecture)'=='amd64'">_DllMainCRTStartup</EntryPointSymbol>
+      <EntryPointSymbol Condition="'$(BuildArchitecture)'=='i386'">_DllMainCRTStartup@12</EntryPointSymbol>
+      <AdditionalDependencies>
+        %(AdditionalDependencies);
+        $(PUBLIC_SDK_LIB)\kernel32.lib;
+        $(PUBLIC_SDK_LIB)\advapi32.lib;
+        $(PUBLIC_SDK_LIB)\rpcrt4.lib;
+        $(PUBLIC_SDK_LIB)\mswsock.lib;
+        $(PUBLIC_SDK_LIB)\ws2_32.lib;
+        $(PUBLIC_SDK_LIB)\secur32.lib;
+        $(PUBLIC_SDK_LIB)\uuid.lib;
+        $(PUBLIC_SDK_LIB)\ntdll.lib;
+        $(PUBLIC_SDK_LIB)\psapi.lib;
+        $(PUBLIC_SDK_LIB)\Iphlpapi.lib;
+        $(PUBLIC_SDK_LIB)\authz.lib;
+        $(PUBLIC_SDK_LIB)\ntdsapi.lib;
+        $(OutDir)\..\mpichannels\mpichannels.lib;
+        $(OutDir)\..\mpiio\mpiio.lib;
+        $(OutDir)\..\mpicommon\mpicommon.lib;
+        $(OutDir)\..\mpiutil\mpiutil.lib;
+        $(OutDir)\..\pmicli\pmicli.lib;
+        $(OutDir)\..\mpiapi\mpiapi.lib;
+        $(OutDir)\..\mpid\mpid.lib;
+        $(OutDir)\..\mpifort\mpifort.lib;
+        $(OutDir)\..\pmilib\pmilib.lib;
+        $(OutDir)\..\mpi_debugger\mpi_debugger.lib;
+        $(CRT_Libs);
+      </AdditionalDependencies>
+      <ModuleDefinitionFile>.\msmpi.def</ModuleDefinitionFile>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <!--
+       MSBuild will put the project reference libs at the end of the link.exe commandline,
+       after the additional includes defined above. This causes a link error because the MPI
+       libs overwrite the delete operator, but libcmt.lib defines it first. We set the
+       LinkLibraryDepencies property false here and explicitly include the dependent libs in
+       the AdditionalDependencies defined above to ensure that the link.exe commandline has
+       these in the proper order.
+  -->
+  <ItemGroup>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\channels\mpichannels.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\io\mpiio.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\common\mpicommon.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\util\mpiutil.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\pmilib\cli\pmicli.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\api\mpiapi.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\mpid\mpid.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\fortran\lib\mpifort.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\pmilib\lib\pmilib.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\dbg\mpi_debugger.vcxproj">
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemGroup>
+
+  <PropertyGroup>
+    <StagingOutputPath>$(MPI_BIN_DESTINATION)</StagingOutputPath>
+    <OutFileType>msmpi.dll</OutFileType>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup>
+    <PostBuildEvent>
+      <Command>robocopy $(OutDir) $(BinariesBuildTypeArchDirectory)\$(MPI_SDK_DESTINATION)\lib msmpi.lib
+set rc=%errorlevel%
+if not %rc%==1 exit %rce% else exit 0</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include=".\main.cpp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetworkDirect" Version="2.0.1" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

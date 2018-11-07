@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="CopyFiles" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(SrcRoot)\mpi.props" />
+
+<ItemGroup>
+    <_CopyItems Include="**\*.h;**\*.f90" Exclude="oacr.h"/>
+</ItemGroup>
+
+  <Target Name="CopyFiles">
+      <Copy
+          SourceFiles="@(_CopyItems)"
+          DestinationFolder="$(BinariesBuildTypeArchDirectory)\$(MPI_SDK_DESTINATION)\inc\%(RecursiveDir)"
+      />
+  </Target>
+
+  <Target Name="Clean">
+    <RemoveDir Directories="$(BinariesBuildTypeArchDirectory)\$(MPI_SDK_DESTINATION)\inc" />
+  </Target>
+
+</Project>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+
+  <ItemGroup>
+    <ProjectFile Include="$(MSBuildThisFileDirectory)common\mpicommon.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)common\traceManifest.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)mpiexec\mpiexec.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)msmpi\dirs.proj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)pmilib\dirs.proj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)smpd\smpd.vcxproj" />
+    <ProjectFile Include="$(MSBuildThisFileDirectory)stub\mpistub.vcxproj" />
+  </ItemGroup>
+
+  <Import Project="$(TraversalTargets)" Condition=" '$(CBTModulesRestored)' == 'true' " />
+</Project>

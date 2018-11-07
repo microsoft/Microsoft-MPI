@@ -1,0 +1,15 @@
+/*
+ * Copyright (c) Microsoft Corporation. All rights reserved.
+ * Licensed under the MIT License.
+ */
+
+[explicit_handle, strict_context_handle]
+interface SmpdSvcRpc
+{
+}
+
+[explicit_handle, strict_context_handle]
+interface SmpdMgrRpc
+{
+   [async] SmpdMgrCommandAsync([context_handle_noserialize] pContext);
+}

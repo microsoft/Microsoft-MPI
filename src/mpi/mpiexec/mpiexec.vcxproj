@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SrcRoot)\mpi.props" />
+
+  <PropertyGroup>
+    <AssemblyDescription>Microsoft MPI Application Launcher</AssemblyDescription>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Globals">
+    <TargetName>mpiexec</TargetName>
+    <ProjectGuid>{e948b96d-1f93-44e0-8033-777d8f96a897}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>Application</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\pmilib;
+        $(MPI_SRC_ROOT)\msmpi\include;
+        $(MPI_SRC_ROOT)\common\$(O);
+        $(MPI_SRC_ROOT)\pmilib\lib\$(O);
+        .\$(O)
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EntryPointSymbol>wmainCRTStartup</EntryPointSymbol>
+      <AdditionalDependencies>
+        %(AdditionalDependencies);
+        $(PUBLIC_SDK_LIB)\kernel32.lib;
+        $(PUBLIC_SDK_LIB)\user32.lib;
+        $(PUBLIC_SDK_LIB)\advapi32.lib;
+        $(PUBLIC_SDK_LIB)\rpcrt4.lib;
+        $(PUBLIC_SDK_LIB)\authz.lib;
+        $(PUBLIC_SDK_LIB)\mswsock.lib;
+        $(PUBLIC_SDK_LIB)\ws2_32.lib;
+        $(PUBLIC_SDK_LIB)\secur32.lib;
+        $(PUBLIC_SDK_LIB)\netapi32.lib;
+        $(PUBLIC_SDK_LIB)\ole32.lib;
+        $(PUBLIC_SDK_LIB)\oleaut32.lib;
+        $(PUBLIC_SDK_LIB)\uuid.lib;
+        $(PUBLIC_SDK_LIB)\ntdsapi.lib;
+        $(PUBLIC_SDK_LIB)\ntdll.lib;
+        $(CRT_Libs);
+      </AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <PropertyGroup>
+    <StagingOutputPath>$(MPI_BIN_DESTINATION)</StagingOutputPath>
+    <OutFileType>*.exe</OutFileType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\common\mpicommon.vcxproj" />
+    <ProjectReference Include="$(MPI_SRC_ROOT)\pmilib\lib\pmilib.vcxproj" />
+    <ProjectReference Include="$(MPI_SRC_ROOT)\msmpi\dbg\mpi_debugger.vcxproj" />
+    <ProjectReference Include="$(MPI_SRC_ROOT)\stub\mpistub.vcxproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include=".\configfile.cpp" />
+    <ClCompile Include=".\machinefile.cpp" />
+    <ClCompile Include=".\mpiexec.cpp" />
+    <ClCompile Include=".\mpiexecpmidbg.cpp" />
+    <ClCompile Include=".\mpiexec_abort.cpp" />
+    <ClCompile Include=".\mpiexec_connect.cpp" />
+    <ClCompile Include=".\mpiexec_handle_command.cpp" />
+    <ClCompile Include=".\mpiexec_print_tables.cpp" />
+    <ClCompile Include=".\mpiexec_redirect.cpp" />
+    <ClCompile Include=".\mpiexec_start_mgr.cpp" />
+    <ClCompile Include=".\mp_parse_command_line.cpp" />
+    <ClCompile Include=".\smpd_host_util.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

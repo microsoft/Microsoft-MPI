@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <!--
+  This root MSBuild file should be imported by all projects in the tree and serves as the central entry point for CBT.
+  You can have a  hierarchy of imports but make sure that this file is still imported.
+-->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="Global locations">
+    <!--
+      $(MSBuildAllProjects) is a list of files that determine if a project is up-to-date or not.  By including this
+      file in the list, it ensures that all projects will be rebuilt if it changes.
+    -->
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+
+    <!--
+      Enlistment root is based off of wherever this file is.  Be sure not to set this property anywhere else.
+    -->
+    <EnlistmentRoot>$(MSBuildThisFileDirectory.TrimEnd('\\'))</EnlistmentRoot>
+    <NuGetPackagesPath Condition=" '$(NuGetPackagesPath)' == '' ">$(EnlistmentRoot)\packages</NuGetPackagesPath>
+
+    <!-- 
+      Enable CBT.DotNetFx-net452 build package to be used globally
+    -->
+    <!-- <EnableCBT_DotNetFx-net452>true</EnableCBT_DotNetFx-net452> -->
+    <!--
+     Set a default TargetFrameworkVersion if needed
+    <TargetFrameworkVersion Condition=" '$(TargetFrameworkVersion)' == '' ">v4.5.2</TargetFrameworkVersion>
+    -->
+  </PropertyGroup>
+  
+  <!-- 
+    StyleCop.json and Code Analysis Custom Dictionary settings
+  -->
+  <ItemGroup Condition="Exists('$(SRCROOT)\stylecop.json') and Exists('$(SRCROOT)\CustomDictionary.xml')" >
+    <AdditionalFiles Include="$(SRCROOT)\stylecop.json" />
+    <CodeAnalysisDictionary Include="$(SRCROOT)\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
+  </ItemGroup>
+  <PropertyGroup>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <CodeAnalysisSummary>true</CodeAnalysisSummary>
+    <CodeAnalysisTimeout>300</CodeAnalysisTimeout>
+    <CodeAnalysisTreatWarningsAsErrors>false</CodeAnalysisTreatWarningsAsErrors>
+    <CodeAnalysisSearchGlobalAssemblyCache>false</CodeAnalysisSearchGlobalAssemblyCache>
+  </PropertyGroup>
+
+  <!--
+    Nuproj ProjectReference dependency assembly resolution
+  -->
+  <PropertyGroup Condition=" '$(MSBuildProjectExtension)' != '.nuproj' And !Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.targets\ImportAfter\Microsoft.Common.NuProj.targets') ">
+    <EnableNuProj_Common Condition=" '$(EnableNuProj_Common)' == '' ">true</EnableNuProj_Common>
+  </PropertyGroup>  
+
+  <!--
+    Importing the "global" CBT build.props is what activates CBT.Core to restore modules.  You will want to set
+    properties before or after it depending on what you're injecting.  The "global" build.props will also import
+    files located in the $(CBTLocalPath) folder at certain points.
+  -->
+  <Import Project="$(EnlistmentRoot)\.build\CBT\build.props" />
+  
+  <!--
+    The NuProjPath property allows .nuproj projects to build without having NuProj installed.
+  -->
+  <PropertyGroup Condition=" '$(MSBuildProjectExtension)' == '.nuproj'" >
+    <NuProjPath Condition=" Exists('$(MSBuildExtensionsPath)\NuProj\NuProj.props') ">$(MSBuildExtensionsPath)\NuProj</NuProjPath>
+    <NuProjPath Condition=" '$(CBTModule_NuProj)' != '' And '$(NuProjPath)' == '' ">$(CBTModule_NuProj)\tools</NuProjPath>
+    <!-- Whenever a project manually imports Directory.Build.props and it could be imported again by Microsoft.Common.props, you set ImportDirectoryBuildProps to false  -->
+    <ImportDirectoryBuildProps>false</ImportDirectoryBuildProps>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <!-- The root folder to stage the outputs at -->
+    <StagingOutputRootPath>$(EnlistmentRoot)\out\$(Configuration)-$(Platform)\</StagingOutputRootPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <BuildArchitecture Condition="'$(Platform)'=='x64'">amd64</BuildArchitecture>
+    <BuildArchitecture Condition="'$(Platform)'=='x86'">i386</BuildArchitecture>
+    <OtherArchitecture Condition="'$(Platform)'=='x64'">i386</OtherArchitecture>
+    <OtherArchitecture Condition="'$(Platform)'=='x86'">amd64</OtherArchitecture>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SrcRoot>$(EnlistmentRoot)/src</SrcRoot>
+
+    <MPI_INC_ROOT>$(SrcRoot)\include</MPI_INC_ROOT>
+    <MPI_INC_ARCH_ROOT Condition="'$(Platform)'=='x64'">$(MPI_INC_ROOT)\x64</MPI_INC_ARCH_ROOT>
+    <MPI_INC_ARCH_ROOT Condition="'$(Platform)'=='x86'">$(MPI_INC_ROOT)\x86</MPI_INC_ARCH_ROOT>
+    <MPI_INC_PATH>$(MPI_INC_ROOT);$(MPI_INC_ARCH_ROOT)</MPI_INC_PATH>
+    <MPI_SRC_ROOT>$(SrcRoot)\mpi</MPI_SRC_ROOT>
+
+    <MPI_DESTINATION>bin</MPI_DESTINATION>
+    <MPI_BIN_DESTINATION>$(MPI_DESTINATION)</MPI_BIN_DESTINATION>
+    <MPI_BIN_OUTPUT_DESTINATION>$(StagingOutputRootPath)\$(MPI_BIN_DESTINATION)</MPI_BIN_OUTPUT_DESTINATION>
+    <BinariesBuildTypeArchDirectory>$(StagingOutputRootPath)</BinariesBuildTypeArchDirectory>
+    <MPI_SDK_DESTINATION>$(MPI_DESTINATION)\sdk</MPI_SDK_DESTINATION>
+    <DEFAULT_STACKCOMMIT>0x2000</DEFAULT_STACKCOMMIT>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TrackFileAccess>false</TrackFileAccess>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <WDKCONTENTROOT Condition="'$(WDKCONTENTROOT)'==''">$(WindowsSdkDir)</WDKCONTENTROOT>
+
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <Platform Condition="'$(Platform)' == 'Win32'">x86</Platform>
+    <CharacterSet>NotSet</CharacterSet>
+    <_COMPONENTNAME_>mpi</_COMPONENTNAME_>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GFORTRAN_BIN>"C:\Program Files\mingw-w64\x86_64-8.1.0-posix-seh-rt_v6-rev0\mingw64\bin"</GFORTRAN_BIN>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <OutputPath>$(StagingOutputRootPath)$(MSBuildProjectName)\</OutputPath>
+    <VCToolsVersion>14.15.26726</VCToolsVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <PlatformToolset>v141</PlatformToolset>
+    <OutDir>$(OutputPath)</OutDir>
+    <O>$(Platform)\$(Configuration)</O>
+    <O Condition="'$(Platform)' == 'x86'">$(Configuration)</O>
+    <ResolveNugetpackages>false</ResolveNugetpackages>
+  <IntDirSharingDetected>None</IntDirSharingDetected>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <LinkIncremental>false</LinkIncremental>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </ClCompile>
+    <Link>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </ClCompile>
+    <Link>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Platform)'=='Win32'">
+    <ClCompile>
+      <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+    </Link>
+  </ItemDefinitionGroup>
+
+  <Target Name="CopyFilesToStagingOutputDirectory" AfterTargets="CopyFilesToOutputDirectory" Condition=" '$(StagingOutputPath)' != '' ">
+    <ItemGroup>
+     <!-- Gather all files in the output directory recursively -->
+      <StagingFiles Include="$(OutputPath)\$(OutFileType)" />
+    </ItemGroup>
+     <!-- Copy the build output to the drop staging location -->
+    <Copy
+        SourceFiles="@(StagingFiles)"
+        DestinationFolder="$(StagingOutputRootPath)\$(StagingOutputPath)"
+        SkipUnchangedFiles="$(SkipCopyUnchangedFiles)"
+        OverwriteReadOnlyFiles="$(OverwriteReadOnlyFiles)"
+        Retries="$(CopyRetryCount)"
+        RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)"
+        UseHardlinksIfPossible="$(CreateHardLinksForCopyFilesToOutputDirectoryIfPossible)"
+        UseSymboliclinksIfPossible="$(CreateSymbolicLinksForCopyFilesToOutputDirectoryIfPossible)">
+      <Output TaskParameter="DestinationFiles" ItemName="FileWrites"/>
+    </Copy>
+  </Target>
+
+  <!-- NuProj.props sets a default TargetFrameworkVersion if none is set. Import this before any DotNetFx module props/targets that rely on TargetFrameworkVersion. -->
+  <!--  <Import Project="$(NuProjPath)\NuProj.props" Condition="Exists('$(NuProjPath)\NuProj.props') AND '$(MSBuildProjectExtension)' == '.nuproj'" /> -->
+  
+</Project>

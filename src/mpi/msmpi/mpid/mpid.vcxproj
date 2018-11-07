@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\msmpi.props" />
+
+
+  <PropertyGroup Label="Globals">
+    <TargetName>mpid</TargetName>
+    <ProjectGuid>{a03a176b-cf25-4c2f-8f96-c7d5a372c9b7}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\pch_hdr.src</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\channels;
+        $(MPI_SRC_ROOT)\msmpi\io;
+        $(MPI_SRC_ROOT)\msmpi\mpid;
+        $(O);
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    <Midl>
+      <StructMemberAlignment>8</StructMemberAlignment>
+      <PreprocessorDefinitions>MIDL_PASS</PreprocessorDefinitions>
+      <DefaultCharType>unsigned</DefaultCharType>
+      <AdditionalOptions>/ms_ext /c_ext /sstub $(MPI_SRC_ROOT)\msmpi\mpid\$(O)\dynproc_s.c /prefix all RpcCli /prefix server RpcSrv /no_stamp /no_settings_comment /lcid 1033 -sal -target NT60</AdditionalOptions>
+      <SuppressCompilerWarnings>true</SuppressCompilerWarnings>
+      <WarningLevel></WarningLevel>
+    </Midl>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <Midl Include="dynproc.idl">
+      <OutputDirectory>$(O)</OutputDirectory>
+      <HeaderFileName>dynproc.h</HeaderFileName>
+      <TypeLibraryName>dynproc.tlb</TypeLibraryName>
+    </Midl>
+
+    <ClCompile Include="$(O)\DynProc_s.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include="$(O)\DynProc_c.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include="alltoall.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include="attr.cpp" />
+    <ClCompile Include="barrier.cpp" />
+    <ClCompile Include="bcast.cpp" />
+    <ClCompile Include="comm.cpp" />
+    <ClCompile Include="compression.cpp" />
+    <ClCompile Include="conntbl.cpp" />
+    <ClCompile Include="dataloop.cpp" />
+    <ClCompile Include="datatype.cpp" />
+    <ClCompile Include="dynamic.cpp" />
+    <ClCompile Include="DynProcAlloc.cpp" />
+    <ClCompile Include="DynProcServer.cpp" />
+    <ClCompile Include="env.cpp" />
+    <ClCompile Include="error.cpp" />
+    <ClCompile Include="file.cpp" />
+    <ClCompile Include="gather.cpp" />
+    <ClCompile Include="group.cpp" />
+    <ClCompile Include="info.cpp" />
+    <ClCompile Include="ioread.cpp" />
+    <ClCompile Include="iowrite.cpp" />
+    <ClCompile Include="op.cpp" />
+    <ClCompile Include="packethandling.cpp" />
+    <ClCompile Include="pg.cpp" />
+    <ClCompile Include="probe.cpp" />
+    <ClCompile Include="pt2pt.cpp" />
+    <ClCompile Include="reduce.cpp" />
+    <ClCompile Include="request.cpp" />
+    <ClCompile Include="scatter.cpp" />
+    <ClCompile Include="segment.cpp" />
+    <ClCompile Include="status.cpp" />
+    <ClCompile Include="tasks.cpp" />
+    <ClCompile Include="topo.cpp" />
+    <ClCompile Include="vc.cpp" />
+    <ClCompile Include="win.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+  <ItemGroup>
+    <PackageReference Include="NetworkDirect" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\common\traceManifest.vcxproj">
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

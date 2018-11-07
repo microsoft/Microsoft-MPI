@@ -1,0 +1,4 @@
+LIBRARY
+EXPORTS
+    MSMPI_Get_pm_interface
+    MSMPI_pm_query_interface

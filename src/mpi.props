@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Target Name="SetMSMPIVersion" BeforeTargets="ClCompile" >
+    <PropertyGroup>
+      <!-- No shift operation, so multiply by powers of 2.
+           Also, hex numbers don't seem to be allowed, so the bitwise AND operations use decimal instead of all Fs.
+      -->
+
+      <ProductMajorVersion>10</ProductMajorVersion>
+      <ProductMinorVersion>0</ProductMinorVersion>
+      <BuildMajorVersion>12498</BuildMajorVersion>
+      <BuildMinorVersion>5</BuildMinorVersion>
+
+      <_MSMPI_VER_>$([MSBuild]::BitwiseOr(`$([MSBuild]::Multiply(`$(ProductMajorVersion)`, `256`))`, `$([MSBuild]::BitwiseAnd(`$(ProductMinorVersion)`, `255`))`))</_MSMPI_VER_>
+      <_MSMPI_VER_EX_>$([MSBuild]::BitwiseOr(`$([MSBuild]::Multiply(`$(_MSMPI_VER_)`, `65536`))`, `$([MSBuild]::BitwiseAnd(`$(BuildMinorVersion)`, `65535`))`))</_MSMPI_VER_EX_>
+      <_MSMPI_BUILDNUM_>$(BuildMajorVersion)</_MSMPI_BUILDNUM_>
+      <_MSMPI_FILEREV_>$(BuildMinorVersion)</_MSMPI_FILEREV_>
+
+    </PropertyGroup>
+    <GetFrameworkSdkPath>
+      <Output TaskParameter="Path" PropertyName="WindowsSdkPath"/>
+    </GetFrameworkSdkPath>
+    <ItemGroup>
+      <ClCompile>
+        <PreprocessorDefinitions>
+          %(PreprocessorDefinitions);
+          MSMPI_VER=$(_MSMPI_VER_);
+          MSMPI_VER_EX=$(_MSMPI_VER_EX_);
+          _BLDVERMAJOR=$(ProductMajorVersion);
+          _BLDVERMINOR=$(ProductMinorVersion);
+          _BLDNUMMAJOR=$(BuildMajorVersion);
+          _BLDNUMMINOR=$(BuildMinorVersion);
+        </PreprocessorDefinitions>
+      </ClCompile>
+    </ItemGroup>
+    <Message Text="MSMPI Version $(ProductMajorVersion).$(ProductMinorVersion).$(BuildMajorVersion).$(BuildMinorVersion) - $(_MSMPI_VER_) - $(_MSMPI_VER_EX_)" />
+  </Target>
+
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x86">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x86">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <CRT_Libs>libucrtd.lib;libcmtd.lib;libvcruntimed.lib</CRT_Libs>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <CRT_Libs>libucrt.lib;libcmt.lib;libvcruntime.lib</CRT_Libs>
+  </PropertyGroup>
+
+  <ItemDefinitionGroup Condition="'$(BuildArchitecture)'=='amd64'" >
+    <ClCompile>
+      <PreprocessorDefinitions>_WIN64=1;_AMD64_=1;AMD64=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalOptions>%(AdditionalOptions) /favor:AMD64</AdditionalOptions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(BuildArchitecture)'=='i386'" >
+    <ClCompile>
+      <PreprocessorDefinitions>_X86_=1;i386=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Debug'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>DBG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup Condition="'$(Configuration)'=='Release'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>NDEBUG=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ControlFlowGuard>Guard</ControlFlowGuard>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PreprocessorDefinitions>
+        %(PreprocessorDefinitions);
+        _WIN32_WINNT=_WIN32_WINNT_WIN10;
+      </PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <UseFullPaths>true</UseFullPaths>
+      <OmitDefaultLibName>true</OmitDefaultLibName>
+      <StringPooling>true</StringPooling>
+      <BufferSecurityCheck>true</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <ExceptionHandling>false</ExceptionHandling>
+      <StructMemberAlignment>8Bytes</StructMemberAlignment>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <DisableSpecificWarnings>
+        4986;4987;4471;4369;4309;4603;4627;
+        28251;28252;28253;
+        %(DisableSpecificWarnings)
+      </DisableSpecificWarnings>
+      <FloatingPointModel Condition="'$(BuildArchitecture)'=='i386'">Strict</FloatingPointModel>
+      <CallingConvention Condition="'$(BuildArchitecture)'=='i386'">stdcall</CallingConvention>
+      <ForcedIncludeFiles>
+        warning.h;
+        $(MPI_INC_ROOT)\mpiwarning.h
+      </ForcedIncludeFiles>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_INC_PATH);
+        $(MPI_SRC_ROOT)\common
+      </AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>
+        %(PreprocessorDefinitions);
+        _WINSOCK_DEPRECATED_NO_WARNINGS;
+        VER_USE_OTHER_MAJOR_MINOR_VER;
+        HAVE_DEBUGGER_SUPPORT=1;
+        HAVE_FORTRAN_BINDING=1;
+        USE_HUMAN_READABLE_TOKENS=1;
+        _USE_DECLSPECS_FOR_SAL=1;
+        WIN32_LEAN_AND_MEAN=1;
+        CONDITION_HANDLING=1;
+        _CRT_SECURE_NO_WARNINGS=1;
+      </PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(NO_MPICH_DLL)'==''">
+        %(PreprocessorDefinitions);
+        _MPICH_DLL_=1;
+      </PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <LinkTimeCodeGeneration Condition="'$(BuildType)'!='Debug'">UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+
+</Project>

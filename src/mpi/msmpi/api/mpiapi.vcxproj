@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="..\msmpi.props" />
+
+  <PropertyGroup Label="Globals">
+    <TargetName>mpiapi</TargetName>
+    <ProjectGuid>{49a00e51-7f11-4a7f-a9ab-b361269dda3a}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\pch_hdr.src</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\include;
+        $(MPI_SRC_ROOT)\msmpi\mpid;
+        $(MPI_SRC_ROOT)\msmpi\io;
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <ClCompile Include=".\mpi_alltoall.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include=".\mpi_attr.cpp" />
+    <ClCompile Include=".\mpi_barrier.cpp" />
+    <ClCompile Include=".\mpi_bcast.cpp" />
+    <ClCompile Include=".\mpi_comm.cpp" />
+    <ClCompile Include=".\mpi_completion.cpp" />
+    <ClCompile Include=".\mpi_datatype.cpp" />
+    <ClCompile Include=".\mpi_dynamic.cpp" />
+    <ClCompile Include=".\mpi_error.cpp" />
+    <ClCompile Include=".\mpi_file.cpp" />
+    <ClCompile Include=".\mpi_gather.cpp" />
+    <ClCompile Include=".\mpi_group.cpp" />
+    <ClCompile Include=".\mpi_info.cpp" />
+    <ClCompile Include=".\mpi_ioread.cpp" />
+    <ClCompile Include=".\mpi_iowrite.cpp" />
+    <ClCompile Include=".\mpi_env.cpp" />
+    <ClCompile Include=".\mpi_op.cpp" />
+    <ClCompile Include=".\mpi_pack.cpp" />
+    <ClCompile Include=".\mpi_probe.cpp" />
+    <ClCompile Include=".\mpi_pt2pt.cpp" />
+    <ClCompile Include=".\mpi_reduce.cpp" />
+    <ClCompile Include=".\mpi_request.cpp" />
+    <ClCompile Include=".\mpi_rma.cpp" />
+    <ClCompile Include=".\mpi_scatter.cpp" />
+    <ClCompile Include=".\mpi_status.cpp" />
+    <ClCompile Include=".\mpi_topo.cpp" />
+    <ClCompile Include=".\mpi_win.cpp" />
+  </ItemGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+
+  <ItemGroup>
+    <ProjectReference Include="$(MPI_SRC_ROOT)\common\traceManifest.vcxproj" />
+  </ItemGroup>
+
+</Project>

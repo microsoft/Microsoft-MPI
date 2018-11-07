@@ -1,0 +1,94 @@
+"connect"
+    Sent by root to each parent of the hosts to be connected on a "spawn" command
+    Sent by root to the parent of the left & right childs of the host that was just conncted as a response to the "result" for "connect" command from that node parent.
+    Same as prev line done by mpiexec connecting to the first smpd
+
+
+"start_dbs"
+    Sent by root to node 1 if tree is already connected (and not zero apps) on "spawn" command
+    Send by root to node 1 after all nodes are connected on mpiexec reconnect to first smpd
+    Sent by root to node 1 after all nodes are connected on "result" for "connected"
+    
+
+"launch"
+    Sent by root to each node for the launch app as a result of "result" to "start_dbs"
+    
+"init"
+    Sent by PMI when the app calls PMI_Init sent to root
+    
+"finalize"
+    Sent by PMI when the app calls PMI_Finalize sent to root
+
+"done"
+    Sent by PMI on MPI_Finalize to its local smpd mgr after PMI_Barrier is passed.
+
+"exit"
+    Sent by smpd to root upon process exit. inlcude error code for process exit (after socket to proc closed by smpd as a response for "done")
+    
+"close"
+    Sent by mpiexec to the first smpd on tearing down the tree
+    Sent by smpd to to its left & right child upon received a "close" command
+
+"closed"
+    Sent by smpd as a response to "close" command when left & right child are closed immidatly, when
+    both childs responded with "closed" or when both child are closed as a result of error in the communication.
+    REMOVED: Sent to context where "closed_request" command came from
+    
+"closed_request" REMOVED
+    Sent by smpd to its parent on receive of "closed" command from both its childs (and parent exists)
+    Send by smpd to its parent on closing state + left and right child socket closed (and parent exists)
+
+"result"
+    Sent back as a response to "barrier", "dbX", "launch", "connect", "start_dbs", "init", "finalize", "suspend", unexpected_command, "spawn"
+    processed for "connect", "launch", "start_dbs", "spawn", "dbX", "init", "barrier", "suspend"
+
+    "exit_on_done" REMOVED
+    
+"abort"
+    Sent back to root when the smpd_post_abort_command funciton is called
+
+"abort_job"
+    By PMI when the app issues PMI_Abort sent to root
+    REMOVED: By smpd when processing "exit" command and process exit after init before finilize
+    REMOVED: By mpiexec when aborting job (ctrl-c handler?)
+
+"stdin"
+    Sent by root to node 1 on user input
+    
+"stdin_close"
+    Sent by mpiexec to node 1 when stdin gets closed.
+    will cause the applicaiton stdin to close
+
+"stdout"
+"stderr"
+    Sent by each smpd to root on app output.
+    
+"print" REMOVED
+    Sent by each smpd to it's childs to print info on itself. NOT USED
+    
+"dbput"
+"dbget"
+"dbcreate"
+"dbdestroy"
+"dbfirst"
+"dbnext"
+    Sent by PMI on corresponding PMI calls to node 1
+
+"dbfirstdb" REMOVED
+"dbnextdb" REMOVED
+"dbdelete" REMOVED
+    
+"barrier"
+    Sent by PMI on MPI_Barrier
+    
+"exit_on_done" REMOVED
+    NOT USED
+    
+"spawn"
+    Sent by PMI on PMI_Spawn_multiple to the root
+    
+"suspend"
+    Sent by root for all processes that did not exit to their manager node on mpiexec_abort_job call
+    
+"kill"
+    Sent by root for all processes that did not exit after all got suspended to their manager node as a response to "result" for "suspend"

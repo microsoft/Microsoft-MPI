@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <Import Project="$(SrcRoot)\mpi.props" />
+
+  <PropertyGroup Label="Globals">
+    <TargetName>pmilib</TargetName>
+    <ProjectGuid>{42803356-4ca2-499f-8f17-6d94a1935f9d}</ProjectGuid>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration">
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
+
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>precomp.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderOutputFile>$(IntDir)\pch_hdr.src</PrecompiledHeaderOutputFile>
+      <AdditionalIncludeDirectories>
+        %(AdditionalIncludeDirectories);
+        $(MPI_SRC_ROOT)\msmpi\include;
+        .\$(O)
+      </AdditionalIncludeDirectories>
+    </ClCompile>
+    <Midl>
+      <StructMemberAlignment>8</StructMemberAlignment>
+      <PreprocessorDefinitions>
+        _WCHAR_T_DEFINED;
+        MIDL_PASS
+      </PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>
+        $(MPI_SRC_ROOT)\common;
+      </AdditionalIncludeDirectories>
+      <DefaultCharType>unsigned</DefaultCharType>
+      <AdditionalOptions>/prefix all RpcCli /prefix server RpcSrv /ms_ext /c_ext /no_stamp /no_settings_comment /lcid 1033 -sal -target NT60 /acf $(MPI_SRC_ROOT)\pmilib\SmpdRpc.acf /sstub $(MPI_SRC_ROOT)\pmilib\lib\$(O)\smpdrpc_s.c</AdditionalOptions>
+      <SuppressCompilerWarnings>true</SuppressCompilerWarnings>
+      <WarningLevel></WarningLevel>
+    </Midl>
+  </ItemDefinitionGroup>
+
+  <ItemGroup>
+    <Midl Include="..\smpdrpc.idl">
+      <OutputDirectory>$(O)</OutputDirectory>
+      <HeaderFileName>smpdrpc.h</HeaderFileName>
+      <TypeLibraryName>smpdrpc.tlb</TypeLibraryName>
+    </Midl>
+
+    <ClCompile Include="$(O)\SmpdRpc_s.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include="$(O)\SmpdRpc_c.c">
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include="..\SmpdMgrRpcSrv.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+
+    <ClCompile Include="..\SmpdSvcRpcSrv.cpp"/>
+    <ClCompile Include="..\smpd_command.cpp"/>
+    <ClCompile Include="..\smpd_database.cpp"/>
+    <ClCompile Include="..\smpd_tree_command.cpp"/>
+    <ClCompile Include="..\smpd_printf.cpp"/>
+    <ClCompile Include="..\smpd_read_write.cpp"/>
+    <ClCompile Include="..\smpd_process.cpp"/>
+    <ClCompile Include="..\smpd_start_mgr.cpp"/>
+    <ClCompile Include="..\smpd_state_machine.cpp"/>
+    <ClCompile Include="..\smpd_init.cpp"/>
+    <ClCompile Include="..\smpd_server.cpp"/>
+    <ClCompile Include="..\root_server.cpp"/>
+    <ClCompile Include="..\root_client.cpp"/>
+    <ClCompile Include="..\smpd_client.cpp"/>
+    <ClCompile Include="..\cmdline.cpp"/>
+    <ClCompile Include="..\PmiDbgImpl.cpp"/>
+    <ClCompile Include="..\service_lib.cpp"/>
+
+  </ItemGroup>
+  <ItemGroup>
+
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

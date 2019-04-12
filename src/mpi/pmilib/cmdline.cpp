@@ -50,6 +50,10 @@ static inline wchar_t* smpd_quoted_copy(_Out_cap_(maxlen) wchar_t* str, int maxl
 
     while(*arg != L'\0')
     {
+        if (*arg == CHAR_DQUOTE)
+        {
+            PUSH_CHAR(str, end, CHAR_SLASH);
+        }
         PUSH_CHAR(str, end, *arg);
         arg++;
     }
@@ -177,8 +181,24 @@ smpd_unpack_cmdline(
         {
             if(*p == CHAR_DQUOTE)
             {
-                inquote = !inquote;
-                continue;
+                //
+                // check if the double quote is escaped
+                //
+                if (inquote && *(p - 1) == CHAR_SLASH)
+                {
+                    //
+                    // undo escaping double quote
+                    //
+                    if (args)
+                    {
+                        args--;
+                    }
+                }
+                else
+                {
+                    inquote = !inquote;
+                    continue;
+                }
             }
 
             /* if at end of arg, break loop */

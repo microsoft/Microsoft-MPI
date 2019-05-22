@@ -33,7 +33,7 @@
   <ItemDefinitionGroup>
     <Link>
       <SubSystem>Console</SubSystem>
-      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+      <EntryPointSymbol>wmainCRTStartup</EntryPointSymbol>
       <AdditionalDependencies>
         %(AdditionalDependencies);
         $(PUBLIC_SDK_LIB)\kernel32.lib;

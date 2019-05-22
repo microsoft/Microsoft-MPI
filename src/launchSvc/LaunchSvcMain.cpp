@@ -15,7 +15,7 @@ MsmpiLaunchService& Launcher()
 //
 // Entry point
 //
-int __cdecl main(int /*argc*/, const char* /*argv[]*/)
+int __cdecl wmain(_In_ DWORD  argc, _In_ LPWSTR *argv)
 {
     if (!gEventLogger.Open(SERVICE_NAME))
     {
@@ -27,7 +27,7 @@ int __cdecl main(int /*argc*/, const char* /*argv[]*/)
     //
     // Start MsMpi Launch Service
     //
-    HRESULT result = WindowsSvc::ms_windowsSvc.Start();
+    HRESULT result = WindowsSvc::ms_windowsSvc.Start(argc, argv);
 
     if (FAILED(result))
     {
@@ -105,7 +105,7 @@ HRESULT WindowsSvc::ChangeState(_In_ DWORD newState)
 //
 // Does service specific initializations and registers service loop and control handlers
 //
-HRESULT WindowsSvc::Start()
+HRESULT WindowsSvc::Start(_In_ DWORD  argc, _In_ LPWSTR *argv)
 {
     HANDLE  processToken;
     HRESULT result;
@@ -132,6 +132,20 @@ HRESULT WindowsSvc::Start()
     if (FAILED(result))
     {
         return result;
+    }
+
+    //
+    // Parse options
+    //
+    if (!m_launcher.ParseOptions(argc, argv))
+    {
+        gEventLogger.WriteEvent(
+            EVENTLOG_ERROR_TYPE,
+            SVC_CATEGORY,
+            SERVICE_EVENT,
+            L"Error while parsing parameters\n");
+
+        return E_INVALIDARG;
     }
 
     //

@@ -9,6 +9,18 @@ MS-MPI offers several benefits:
   - High performance on the Windows operating system.
   - Binary compatibility across different types of interconnectivity options.
 
+## Version of MPI standard 
+
+MS-MPI is MPI 2.2 compliant with the exception of Fortran bindings errata around attributes interop between C and Fortran. MS-MPI implements a subset of features from MPI 3.1 standard:
+  - Non-blocking collectives,
+  - RMA,
+  - MPI shared memory,
+  - New datatypes,
+  - Large counts,
+  - Matched probe.
+
+For the full list of APIs please see [Microsoft MPI Reference](https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi).
+
 ## MS-MPI downloads
 
 The following are current downloads for MS-MPI:

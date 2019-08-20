@@ -118,6 +118,9 @@ extern "C" {
 #ifndef _Out_opt_
 #define _Out_opt_
 #endif
+#ifndef _Out_writes_
+#define _Out_writes_( x )
+#endif
 #ifndef _Out_writes_z_
 #define _Out_writes_z_( x )
 #endif
@@ -298,6 +301,7 @@ typedef int MPI_Datatype;
 
 #define MPI_2INT                    ((MPI_Datatype)0x4c000816)
 #define MPI_C_BOOL                  ((MPI_Datatype)0x4c000117)
+#define MPI_CXX_BOOL                MPI_C_BOOL
 #define MPI_SIGNED_CHAR             ((MPI_Datatype)0x4c000118)
 #define MPI_UNSIGNED_LONG_LONG      ((MPI_Datatype)0x4c000819)
 
@@ -3157,6 +3161,22 @@ MPI_METHOD
 PMPI_Comm_create(
     _In_ MPI_Comm comm,
     _In_ MPI_Group group,
+    _Out_ MPI_Comm* newcomm
+    );
+
+MPI_METHOD
+MPI_Comm_create_group(
+    _In_ MPI_Comm comm,
+    _In_ MPI_Group group,
+    _In_range_(>=, 0) int tag,
+    _Out_ MPI_Comm* newcomm
+    );
+
+MPI_METHOD
+PMPI_Comm_create_group(
+    _In_ MPI_Comm comm,
+    _In_ MPI_Group group,
+    _In_range_(>=, 0) int tag,
     _Out_ MPI_Comm* newcomm
     );
 

@@ -54,6 +54,13 @@
 #include <sal.h>
 #endif
 
+#if defined(_MSC_VER) && _MSC_VER < 1600 
+typedef signed __int64 _MSMPI_int64_t;
+#else 
+#include <stdint.h> 
+typedef int64_t _MSMPI_int64_t;
+#endif
+
 #if defined(__cplusplus)
 extern "C" {
 #endif
@@ -249,7 +256,7 @@ extern "C" {
 
 /* Address size integer */
 #ifdef _WIN64
-typedef int64_t MPI_Aint;
+typedef _MSMPI_int64_t MPI_Aint;
 #else
 typedef int MPI_Aint;
 #endif
@@ -258,13 +265,13 @@ typedef int MPI_Aint;
 typedef int MPI_Fint;
 
 /* File offset */
-typedef int64_t MPI_Offset;
+typedef _MSMPI_int64_t MPI_Offset;
 
 //
 // MPI-3 standard defines this type that can be used to address locations
 // within either memory or files as well as express count values.
 //
-typedef int64_t MPI_Count;
+typedef _MSMPI_int64_t MPI_Count;
 
 
 /*---------------------------------------------------------------------------*/

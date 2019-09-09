@@ -24,7 +24,7 @@ code (replacing steps 3-7 above). To build a 64-bit application, choose x64 Nati
 in the Start menu.
 ![inline](./screenshots/x64_prompt.png)
 
-To compile your program into an `.obj` file, go to the folder where `MPIHelloWorld.cpp` exists and run:<br>
+To compile your program into an `.obj` file, go to the folder where `MPIHelloWorld.cpp` exists and run (you may ignore the warning message):<br>
 `cl /I"C:\Program Files (x86)\Microsoft SDKs\MPI\Include" /c MPIHelloWorld.cpp`
 ![inline](./screenshots/compile.png)
 
@@ -32,4 +32,4 @@ To create an executable file from the .obj file created in the previous step, ru
 `link /machine:x64 /out:MPIHelloWorld.exe "msmpi.lib" /libpath:"C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64" MPIHelloWorld.obj`
 ![inline](./screenshots/link.png)
 
-You may use `namke` to compile and build the exmaple using the provided [`Makefile`](Makefile) from Developer Command Prompt.
+You may use `nmake` to compile and build the exmaple using the provided [`Makefile`](Makefile) from Developer Command Prompt.

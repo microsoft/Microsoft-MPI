@@ -1,4 +1,4 @@
-link=link
+ld=link
 cc=cl
 
 cflags=/I"C:\Program Files (x86)\Microsoft SDKs\MPI\Include"
@@ -10,7 +10,7 @@ output=affinity.exe
 objs=affinity.obj
 
 all: $(objs)
-	$(link) $(libs) $(ldflags) -out:$(output) $(objs)
+	$(ld) $(libs) $(ldflags) -out:$(output) $(objs)
 
 .cpp.obj:
 	$(cc) $(cflags) /c $*.cpp

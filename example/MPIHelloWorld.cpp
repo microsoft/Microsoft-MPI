@@ -1,3 +1,5 @@
+// A simple MPI code printing a message by each MPI rank
+
 #include <iostream>
 #include <mpi.h>
 

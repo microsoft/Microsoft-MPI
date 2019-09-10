@@ -19,7 +19,7 @@ If you will be building for 32 bits please use `$(MSMPI_LIB32)`
 8. Test run the program on the command line
 ![inline](./screenshots/mpiexec.png)
 
-Alternatively, you can use the Developer Command Prompt for your version of Visual Studio to compile and link the `MPIHelloWorld.cpp` 
+Alternatively, you can use Developer Command Prompt for your version of Visual Studio to compile and link the `MPIHelloWorld.cpp` 
 code (replacing steps 3-7 above). To build a 64-bit application, choose x64 Native Tools Command Prompt from the Visual Studio folder 
 in the Start menu.
 ![inline](./screenshots/x64_prompt.png)
@@ -32,4 +32,4 @@ To create an executable file from the .obj file created in the previous step, ru
 `link /machine:x64 /out:MPIHelloWorld.exe "msmpi.lib" /libpath:"C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64" MPIHelloWorld.obj`
 ![inline](./screenshots/link.png)
 
-You may use `nmake` to compile and build the exmaple using the provided [`Makefile`](Makefile) from Developer Command Prompt.
+You may use the `nmake` command from Developer Command Prompt to compile and build the exmaple using the provided [`Makefile`](Makefile).

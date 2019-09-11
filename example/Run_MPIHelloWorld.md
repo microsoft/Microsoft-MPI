@@ -5,6 +5,7 @@ our [homepage](https://docs.microsoft.com/en-us/message-passing-interface/micros
 variables in Visual Studio)
 ![inline](./screenshots/set_msmpi.png)
 3. Open Visual Studio and create a Console App project. Let's name the project `MPIHelloWorld`
+   * Instead of creating a project, you may open the provided `MPIHelloWorld.vcxproj` project file in Visual Studio and go to step 7. 
 4. Use [this](MPIHelloWorld.cpp) code in the newly created project
 5. Setup the include directories so that the compiler can find the MS-MPI header files. Note that we will be building 
 for 64 bits so we will point the include directory to `$(MSMPI_INC);$(MSMPI_INC)\x64`. If you will be building for 32 bits 

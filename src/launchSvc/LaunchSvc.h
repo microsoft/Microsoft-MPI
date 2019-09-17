@@ -30,7 +30,7 @@ private:
 public:
     MsmpiLaunchService          m_launcher;
 
-    HRESULT Start();
+    HRESULT Start(_In_ DWORD  argc, _In_ LPWSTR *argv);
 
     static WindowsSvc ms_windowsSvc;
 

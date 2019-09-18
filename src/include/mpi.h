@@ -118,6 +118,9 @@ extern "C" {
 #ifndef _Out_opt_
 #define _Out_opt_
 #endif
+#ifndef _Out_writes_
+#define _Out_writes_( x )
+#endif
 #ifndef _Out_writes_z_
 #define _Out_writes_z_( x )
 #endif

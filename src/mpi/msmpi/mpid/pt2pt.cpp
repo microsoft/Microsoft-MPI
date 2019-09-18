@@ -1518,6 +1518,8 @@ MPID_Cancel_recv(
     rreq->status.count = 0;
     rreq->signal_completion();
     rreq->Release();
+
+    Mpi.SignalProgress();
 }
 
 
@@ -1564,6 +1566,8 @@ MPID_Cancel_send(
 
             sreq->status.cancelled = TRUE;
             sreq->signal_completion();
+
+            Mpi.SignalProgress();
         }
         else
         {

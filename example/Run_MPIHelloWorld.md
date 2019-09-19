@@ -1,8 +1,6 @@
 ## Compile and run a sample MPI code on Windows
-1. Download MS-MPI SDK and Redist installers and install them. The download link can be found on 
-our [homepage](https://docs.microsoft.com/en-us/message-passing-interface/microsoft-mpi)
-2. After installation, you can verify that the MS-MPI environment variables have been set (you will want to use these environment 
-variables in Visual Studio)
+1. Download MS-MPI SDK and Redist installers and install them. The download link to a stable realease is available from [this](https://github.com/microsoft/Microsoft-MPI/releases) page.
+2. After installation, you can verify that the MS-MPI environment variables have been set correctly (you will want to use these environment variables in Visual Studio)
 ![inline](./screenshots/set_msmpi.png)
 3. Open Visual Studio and create a Console App project. Let's name the project `MPIHelloWorld`
    * Instead of creating a project, you may open the provided `MPIHelloWorld.vcxproj` project file in Visual Studio and go to step 7. 

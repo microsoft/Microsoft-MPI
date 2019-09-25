@@ -8,9 +8,9 @@
       -->
 
       <ProductMajorVersion>10</ProductMajorVersion>
-      <ProductMinorVersion>0</ProductMinorVersion>
+      <ProductMinorVersion>1</ProductMinorVersion>
       <BuildMajorVersion>12498</BuildMajorVersion>
-      <BuildMinorVersion>5</BuildMinorVersion>
+      <BuildMinorVersion>16</BuildMinorVersion>
 
       <_MSMPI_VER_>$([MSBuild]::BitwiseOr(`$([MSBuild]::Multiply(`$(ProductMajorVersion)`, `256`))`, `$([MSBuild]::BitwiseAnd(`$(ProductMinorVersion)`, `255`))`))</_MSMPI_VER_>
       <_MSMPI_VER_EX_>$([MSBuild]::BitwiseOr(`$([MSBuild]::Multiply(`$(_MSMPI_VER_)`, `65536`))`, `$([MSBuild]::BitwiseAnd(`$(BuildMinorVersion)`, `65535`))`))</_MSMPI_VER_EX_>

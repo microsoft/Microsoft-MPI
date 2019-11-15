@@ -25,7 +25,7 @@ For the full list of APIs please see [Microsoft MPI Reference](https://docs.micr
 
 The following are current downloads for MS-MPI:
 
-  - [MS-MPI v10.0](https://www.microsoft.com/download/details.aspx?id=57467) (new\!) - see [Release notes](microsoft-mpi-release-notes.md)
+  - [MS-MPI v10.1.2](https://www.microsoft.com/download/details.aspx?id=100593) (new\!) - see [Release notes](microsoft-mpi-release-notes.md)
   - The MS-MPI SDK is also available on [Nuget](https://www.nuget.org/packages/msmpisdk/).
 
 Earlier versions of MS-MPI are available from the [Microsoft Download Center](https://go.microsoft.com/fwlink/p/?linkid=390734).

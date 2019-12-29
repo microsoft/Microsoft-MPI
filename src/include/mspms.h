@@ -49,6 +49,17 @@ DEFINE_GUID(
 #endif
 
 #include <WS2tcpip.h>
+#if !defined(_WS2IPDEF_) && !defined(_INC_WS2IPDEF) // latter for GCC 4.9.2
+
+typedef u_short ADDRESS_FAMILY;
+
+typedef union _SOCKADDR_INET {
+  SOCKADDR_IN    Ipv4;
+  SOCKADDR_IN6   Ipv6;
+  ADDRESS_FAMILY si_family;
+} SOCKADDR_INET, *PSOCKADDR_INET;
+
+#endif
 #include <windows.h>
 
 
@@ -72,6 +83,15 @@ DEFINE_GUID(
 #endif
 #ifndef _Outptr_
 #define _Outptr_
+#endif
+#ifndef _In_opt_
+#define _In_opt_
+#endif
+#ifndef _Out_opt_
+#define _Out_opt_
+#endif
+#ifndef _Outptr_opt_
+#define _Outptr_opt_
 #endif
 
 

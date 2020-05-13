@@ -35,5 +35,9 @@
       </PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
-
+  <ItemDefinitionGroup Condition="'$(BuildArchitecture)'=='i386'" >
+    <Link>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
 </Project>

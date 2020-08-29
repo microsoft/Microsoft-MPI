@@ -135,13 +135,13 @@ typedef MPIU_Bsize_t MPIDI_msg_sz_t;
  */
 
 /* PtrToInt converts a pointer to a int type, truncating bits if necessary */
-#define MPIU_PtrToInt PtrToInt
+#define MPIU_PtrToInt(p) ((INT)(INT_PTR) (p) )
 
 /* PtrToAint converts a pointer to an MPI_Aint type, truncating bits if necessary */
 #define MPIU_PtrToAint(a) ((MPI_Aint)(INT_PTR) (a) )
 
 /* IntToPtr converts a int to a pointer type, extending bits if necessary */
-#define MPIU_IntToPtr IntToPtr
+#define MPIU_IntToPtr(i) ((VOID *)(INT_PTR)((int)i))
 
 
 //

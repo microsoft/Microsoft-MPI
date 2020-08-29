@@ -59,13 +59,11 @@ Earlier versions of MS-MPI are available from the [Microsoft Download Center](ht
     - Update _GFORTRAN_BIN_ in Derectory.Build.props to the install location of GFortran
  - [Perl](https://www.perl.org/get.html#win32)
 
- Based on the installed VS/SDK/WDK versions, update _VCToolsVersion_ and _WindowsTargetPlatformVersion_ in Directory.Build.props
-
 Note that the build system uses [CommonBuildToolSet(CBT)](https://commonbuildtoolset.github.io/). You may need to unblock __CBT.core.dll__ (under .build/CBT) depending on your security configurations. Please refer to [CBT documentation](https://commonbuildtoolset.github.io/#/getting-started) for additional details.
 
 
 ## Build
-To build, open a __Native Tools Command Prompt for Visual Studio__ and  run ``msbuild`` from root folder.
+To build, open a __Native Tools Command Prompt for Visual Studio__ and  run ``msbuild /p:WindowsTargetPlatformVersion=<WindowsTargetPlatformVersion> /p:PlatformToolset=<PlatformToolset>`` from root folder, where `<WindowsTargetPlatformVersion>` and `<PlatformToolset>` should be selected based on your installed VS/SDK/WDK versions.
 
 # Contributing
 

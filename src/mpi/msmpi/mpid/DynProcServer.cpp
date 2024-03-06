@@ -292,7 +292,7 @@ AdjustBindingHost(
     RPC_STATUS status;
     HRESULT    hr;
 
-    char  friendlyName[MAX_COMPUTERNAME_LENGTH];
+    char  friendlyName[MAX_COMPUTERNAME_LENGTH+1];
     friendlyName[0] = '\0';
     DWORD err = MPIU_Getenv(
         "MSMPI_ACCEPT_HOST",
